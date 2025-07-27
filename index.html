@@ -255,7 +255,46 @@ Find detailed guidance on crop selection<br>Select Your State and Crop Season:
    </div>
   </section>
   <div style="text-align: center; margin: 2rem 0;">
-   
+    <section id="fertility">
+   <h2>
+    🧪 Soil Fertility Check (Photo-Based Simulation)
+   </h2>
+   <p>
+    Select a photo of your soil to get a mock fertility estimate.
+   </p>
+   <input accept="image/*" id="soilPhotoInput" onchange="previewSoilImage()" type="file"/>
+   <div id="preview" style="margin-top:1rem;">
+   </div>
+   <button onclick="mockFertilityResult()" style="margin-top:1rem;">
+    Check Fertility
+   </button>
+   <p id="fertilityResult" style="font-weight:bold; margin-top:1rem;">
+   </p>
+   <script>
+    function previewSoilImage() {
+          const input = document.getElementById("soilPhotoInput");
+          const preview = document.getElementById("preview");
+          preview.innerHTML = "";
+          if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = document.createElement("img");
+              img.src = e.target.result;
+              img.style.maxWidth = "300px";
+              img.style.marginTop = "1rem";
+              preview.appendChild(img);
+            };
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+
+        function mockFertilityResult() {
+          const options = ["High", "Medium", "Low"];
+          const result = options[Math.floor(Math.random() * options.length)];
+          document.getElementById("fertilityResult").innerText = "Fertility Estimate: " + result;
+        }
+   </script>
+  </section>
   </div>
   <section id="weather" style="margin-top: 6rem;">
    <h3>Get up-to-date weather forecasts to plan your agricultural activities efficiently.<br>Select Your State to Check Weather:
