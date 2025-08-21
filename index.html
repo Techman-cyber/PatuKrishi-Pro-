@@ -2,62 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>PatuKrishi-Pro</title>
-<bg color: light green</>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PatuKrishi Pro</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
+    :root{
+      --green:#2e8b57;
+      --accent:#228b22;
+      --muted:#6b6b6b;
+      --card:#ffffff;
+      --bg:#f4f9f4;
+      --pill:#e9f7ed;
+    }
     html { scroll-behavior: smooth; }
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background:#f9fff9; }
-    nav { background: #2e8b57; padding: 1rem; color: green; display: flex; gap: 2rem; justify-content: center; position: sticky; top: 0; z-index: 1000; }
-    nav a { color: white; text-decoration: none; font-weight: bold; }
-    section { padding: 3rem 2rem; max-width: 1000px; margin: auto; border-bottom: 1px solid #ccc; background:#fff; }
-    h1,h2 { color: #2e8b57; margin-top: 0; }
-    .intro-content p { line-height: 1.6; }
-    .center { text-align: center; }
-    /* Chatbot */
-    #chatbox { width:100%; max-width:700px; height:420px; overflow-y:auto; border:1px solid #ccc; padding:10px; background:#fff; margin:0 auto; border-radius:8px; }
-    #chatControls { text-align:center; margin-top:10px; }
-    input[type=text] { width:70%; padding:10px; border:1px solid #ccc; border-radius:6px; }
-    button { padding:10px 15px; margin:6px 5px; border:none; border-radius:6px; background:#2e8b57; color:#fff; cursor:pointer; }
-    button:disabled { opacity:.6; cursor:not-allowed; }
-    select { padding:10px; border-radius:6px; border:1px solid #ccc; }
-    .quick-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px; max-width:700px; margin:10px auto 0; }
-    .quick-grid button { width:100%; }
-    /* Lens */
-    #lensContainer { display:none; margin-top:20px; }
-    #camera-container { position:relative; width:100%; max-width:700px; margin:20px auto; border-radius:8px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
-    video, canvas, img { width:100%; display:block; border-radius:8px; }
-    #overlay { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
-    #scanner-line { position:absolute; top:0; left:0; width:100%; height:2px; background:rgba(46,139,87,0.8); animation: scan 2s linear infinite; }
-    @keyframes scan { 0% { top:0; } 100% { top:100%; } }
-    #controls { margin-top:10px; display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
-    #results { margin-top:15px; width:90%; max-width:700px; background:#fff; padding:15px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); white-space:pre-wrap; font-size:14px; line-height:1.5; margin:0 auto; }
-    /* Weather */
-    .container { max-width: 700px; margin: 0 auto; padding: 1rem; background:#fff; border:1px solid #e6e6e6; border-radius:8px; }
-    .muted { color:#555; }
-    .footer { text-align:center; color:#333; padding:1.5rem; }
+    body { font-family: "Arial",sans-serif; margin:0; padding:0; background:var(--bg); color:#222; }
+    nav {
+      background:var(--green);
+      padding:0.9rem 1rem;
+      color:#fff;
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      flex-wrap:wrap;
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+    nav a { color:#fff; text-decoration:none; font-weight:600; margin:0 6px; }
+    header.site-head { text-align:center; padding:1.4rem 1rem; background:linear-gradient(0deg, rgba(46,139,87,0.98), rgba(46,139,87,0.9)); color:#fff; }
+    header.site-head h1 { margin:0; font-size:1.6rem; }
+    main { max-width:1100px; margin:1.2rem auto; padding:0 1rem; }
+    section.card { background:var(--card); padding:1.2rem; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.05); margin-bottom:1rem; }
+    h2 { color:var(--green); margin-top:0; }
+    .flex { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    select, input[type="text"], textarea, input[type="file"] { padding:10px; border-radius:8px; border:1px solid #ddd; font-size:14px; width:100%; box-sizing:border-box; }
+    textarea { min-height:100px; resize:vertical; }
+    button { background:var(--accent); color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:600; }
+    button.ghost { background:#fff; color:var(--accent); border:1px solid var(--accent); }
+    .muted { color:var(--muted); font-size:13px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .wide { width:100%; }
+    .pill { background:var(--pill); padding:8px 10px; border-radius:999px; display:inline-block; margin:4px 4px 0 0; }
+    #results { white-space:pre-wrap; background:#fff; padding:12px; border-radius:8px; box-shadow:inset 0 0 0 1px #eee; min-height:60px; }
+    img.preview { max-width:100%; border-radius:8px; display:block; margin-top:8px; }
+    /* Lens UI */
+    #lensContainer { display:block; padding-top:12px; }
+    #camera-container { position:relative; width:100%; max-width:700px; margin:12px auto; border-radius:10px; overflow:hidden; background:#000; }
+    video, canvas, img { width:100%; height:auto; display:block; }
+    #controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:center; margin-top:10px; }
+    .small { padding:8px 10px; font-size:14px; }
+    .note { font-size:13px; color:var(--muted); margin-top:6px; }
+    footer { text-align:center; padding:14px 8px; color:var(--muted); font-size:13px; }
+    @media(max-width:800px){
+      .grid-2 { grid-template-columns:1fr; }
+      nav { gap:6px; padding:0.6rem; }
+    }
   </style>
+
+  <!-- Tesseract.js v4 -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 </head>
 <body>
-
-  <!-- NAV -->
   <nav>
     <a href="#home">Home</a>
     <a href="#crops">Crop Advisory</a>
     <a href="#weather">Weather</a>
-    <a href="#krishi">Krishi Bot</a>
+    <a href="#krishi">Chatbot</a>
+    <a href="#lens">Lens</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <!-- HOME -->
-  <section id="home">
-    <header class="center">
-      <h1>🌾 Welcome to PatuKrishi..</h1>
-      <p>Ideas and Innovations for Indian Farmers</p>
-    </header>
-<hr>
-    <div class="intro-content" style="margin-top: 2rem;">
-      <h2>Welcome to PatuKrishi Pro – Your all-in-one farming guide.</h2>
+  <header class="site-head">
+    <h1>🌾 PatuKrishi Pro — Ideas & Innovations for Indian Farmers</h1>
+  </header>
+
+  <main>
+    <!-- HOME / INTRO -->
+    <section id="home" class="card">
+      <h2>Welcome to PatuKrishi Pro</h2>
+      <p class="muted"Welcome to PatuKrishi Pro – Your all-in-one farming guide.</h2>
       <p><strong>PatuKrishi</strong> is an innovative agricultural technology solution designed to empower farmers by providing precise and timely information crucial for successful farming. This smart product helps farmers determine the optimal cropping season for specific crops based on their region, ensuring better yields and reduced risks.</p>
       <p>Beyond just cropping advice, PatuKrishi integrates advanced climate forecasting and precipitation prediction, allowing farmers to plan their activities around weather patterns effectively. One of its standout features is the ability to analyze soil fertility simply by capturing a photo, leveraging AI-driven image recognition to give instant, accurate feedback about soil health.</p>
       <p>Complementing these features, PatuKrishi includes an intelligent AI assistant (in the Pro version) that responds to farmers’ questions in real-time, offering expert guidance on a wide range of agricultural topics in regional languages.</p>
@@ -72,234 +94,153 @@
       <p>पटुकृषि में एक बुद्धिमान एआई सहायक (प्रो संस्करण में) शामिल है जो वास्तविक समय में किसानों के सवालों का जवाब देता है, क्षेत्रीय भाषाओं में कृषि विषयों पर विशेषज्ञ मार्गदर्शन प्रदान करता है।</p>
       <p>यह उत्पाद दो संस्करणों में उपलब्ध है: मानक पटुकृषि जिसमें किफायती मूल्य पर आवश्यक सुविधाएँ हैं, और पटुकृषि प्रो, जिसमें एआई क्षमताओं का पूरा सूट शामिल है।</p>
       <p>तीन साल की गारंटी और मुफ्त तकनीकी सहायता के साथ, पटुकृषि आधुनिक कृषि नवाचारों को सुलभ और विश्वसनीय बनाने के लिए प्रतिबद्ध है।</p>
-      <p><strong>टैगलाइन:</strong> "विचार और नवाचार" — पारंपरिक कृषि ज्ञान के साथ तकनीक का मिश्रण कर ग्रामीण कृषि को बदलने का मिशन।</p>
-    </div>
-  </section>
-<hr>
-  <!-- CROPS -->
-  <section id="crops" style="margin-top: 6rem;">
-    <h2>🌱 Crop Advisory</h2>
-    <h3>Find detailed guidance on crop selection<br/>Select Your State and Crop Season:</h3>
-    <div class="center">
-      <select id="stateSelect" onchange="updateCropInfoBySeason()">
-        <option value="">-- Select State --</option>
-        <option value="Andhra Pradesh">Andhra Pradesh</option>
-        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-        <option value="Assam">Assam</option>
-        <option value="Bihar">Bihar</option>
-        <option value="Chhattisgarh">Chhattisgarh</option>
-        <option value="Goa">Goa</option>
-        <option value="Gujarat">Gujarat</option>
-        <option value="Haryana">Haryana</option>
-        <option value="Himachal Pradesh">Himachal Pradesh</option>
-        <option value="Jharkhand">Jharkhand</option>
-        <option value="Karnataka">Karnataka</option>
-        <option value="Kerala">Kerala</option>
-        <option value="Madhya Pradesh">Madhya Pradesh</option>
-        <option value="Maharashtra">Maharashtra</option>
-        <option value="Manipur">Manipur</option>
-        <option value="Meghalaya">Meghalaya</option>
-        <option value="Mizoram">Mizoram</option>
-        <option value="Nagaland">Nagaland</option>
-        <option value="Odisha">Odisha</option>
-        <option value="Punjab">Punjab</option>
-        <option value="Rajasthan">Rajasthan</option>
-        <option value="Sikkim">Sikkim</option>
-        <option value="Tamil Nadu">Tamil Nadu</option>
-        <option value="Telangana">Telangana</option>
-        <option value="Tripura">Tripura</option>
-        <option value="Uttar Pradesh">Uttar Pradesh</option>
-        <option value="Uttarakhand">Uttarakhand</option>
-        <option value="West Bengal">West Bengal</option>
-      </select>
+      <p><strong>टैगलाइन:</strong> "विचार और नवाचार" — पारंपरिक कृषि ज्ञान के साथ तकनीक का मिश्रण कर ग्रामीण कृषि को बदलने का मिशन।.</p>
+    </section>
 
-      <select id="seasonSelect" onchange="updateCropInfoBySeason()" style="margin-left:1rem;">
-        <option value="">-- Select Season --</option>
-        <option value="Rabi">Rabi</option>
-        <option value="Kharif">Kharif</option>
-        <option value="Zaid">Zaid</option>
-      </select>
-    </div>
+    <!-- CROP ADVISORY -->
+    <section id="crops" class="card">
+      <h2>Crop Advisory</h2>
+      <div class="grid-2">
+        <div>
+          <label>Select State</label>
+          <select id="stateSelect" onchange="updateCropInfoBySeason()">
+            <option value="">-- Select State --</option>
+            <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option>
+            <option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option>
+            <option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+            <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option>
+            <option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option>
+            <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+            <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+          </select>
+        </div>
+        <div>
+          <label>Select Season</label>
+          <select id="seasonSelect" onchange="updateCropInfoBySeason()">
+            <option value="">-- Select Season --</option>
+            <option value="Rabi">Rabi</option>
+            <option value="Kharif">Kharif</option>
+            <option value="Zaid">Zaid</option>
+          </select>
+        </div>
+      </div>
+      <div id="cropOutput" style="margin-top:12px;"></div>
+    </section>
 
-    <div id="cropOutput" style="margin-top:1rem;"></div>
-  </section>
+    <!-- SOIL FERTILITY MOCK -->
+    <section id="fertility" class="card">
+      <h2>🧪 Soil Fertility Check (Photo-Based Simulation)</h2>
+      <p class="muted">Upload a soil photo and get a mock fertility estimate.</p>
+      <input accept="image/*" id="soilPhotoInput" type="file" onchange="previewSoilImage()" />
+      <div id="previewSoil"></div>
+      <div style="margin-top:10px;">
+        <button onclick="mockFertilityResult()">Check Fertility</button>
+        <span id="fertilityResult" style="margin-left:12px; font-weight:600;"></span>
+      </div>
+    </section>
 
-  <!-- SOIL FERTILITY (Mock) -->
-  <section id="fertility">
-    <h2>🧪 Soil Fertility Check (Photo-Based Simulation)</h2>
-    <p>Select a photo of your soil to get a mock fertility estimate.</p>
-    <input accept="image/*" id="soilPhotoInput" type="file"/>
-    <div id="preview" style="margin-top:1rem;"></div>
-    <button onclick="mockFertilityResult()" style="margin-top:1rem;">Check Fertility</button>
-    <p id="fertilityResult" style="font-weight:bold; margin-top:1rem;"></p>
-  </section>
+    <!-- WEATHER -->
+    <section id="weather" class="card">
+      <h2>🌦️ India Weather Finder</h2>
+      <div class="flex" style="gap:0.6rem;">
+        <input id="cityInput" type="text" placeholder="Enter city or village (India)" />
+        <button onclick="getWeatherByCity()">Search</button>
+        <button onclick="getWeatherByLocation()">📍 Use My Location</button>
+      </div>
+      <div id="result" style="margin-top:12px;"></div>
+    </section>
 
-  <!-- WEATHER -->
-  <section id="weather" style="margin-top: 6rem;">
-    <h2>🌦️ India Weather Finder</h2>
-    <div class="container">
-      <input type="text" id="cityInput" placeholder="Enter city or village">
-      <br/>
-      <button onclick="getWeatherByCity()">Search</button>
-      <button onclick="getWeatherByLocation()">📍 Use My Location</button>
-      <div id="result" style="margin-top:10px;"></div>
-      <p class="muted">Powered by OpenWeather (demo key). Replace with your own API key for production.</p>
-    </div>
-  </section>
+    <!-- KRISHI BOT (comprehensive) -->
+    <section id="krishi" class="card">
+      <h2>🌾 Krishi Bot — Agriculture, Animals, Water, Fertilizer, Pesticide & Schemes</h2>
 
-  <!-- KRISHI BOT -->
-  <section id="krishi" style="margin-top: 6rem;">
-    <h1>🌾 Krishi Bot 🤖</h1>
+      <div id="languageSelect" style="margin-bottom:8px;">
+        <label class="muted">Bot Language</label>
+        <select id="language">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="roman">Hindi (Romanized)</option>
+        </select>
+        <button onclick="startRecognition()" class="small" style="margin-left:8px;">🎤 Mic</button>
+      </div>
 
-    <div id="languageSelect" class="center">
-      <label>Select Language:</label>
-      <select id="language">
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="roman">Hindi (Romanized)</option>
-      </select>
-      <button onclick="startRecognition()">🎤 Mic</button>
-    </div>
+      <div id="chatbox" style="border:1px solid #eee; padding:10px; border-radius:8px; min-height:200px; background:#fff;"></div>
 
-    <div id="chatbox"></div>
+      <div style="display:flex; gap:8px; margin-top:10px; align-items:center;">
+        <input id="userInput" type="text" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
 
-    <!-- 4 quick-action points in the chatbot -->
-    <div class="quick-grid">
-      <button onclick="quickAsk('what is agriculture')">What is Agriculture?</button>
-      <button onclick="quickAsk('government schemes for farmers')">Govt Schemes</button>
-      <button onclick="quickAsk('animals')">Farm Animals</button>
-      <button onclick="quickAsk('water management')">Water Management</button>
-    </div>
+      <details style="margin-top:12px;">
+        <summary><strong>Examples</strong></summary>
+        <ul class="muted">
+          <li>“How to grow more from a piece of land”</li>
+          <li>“Types of soil”</li>
+          <li>“Water management tips”</li>
+          <li>“Pesticide safety”</li>
+          <li>“Government schemes for farmers”</li>
+          <li>“CM of Maharashtra”</li>
+        </ul>
+      </details>
+    </section>
 
-    <div id="chatControls">
-      <input type="text" id="userInput" placeholder="Type your message..." />
-      <button onclick="sendMessage()">Send</button>
-      <button id="lensBtn" title="Open Lens Mode">🔍 Lens</button>
-    </div>
+    <!-- LENS OCR + TRANSLATE (separate section) -->
+    <section id="lens" class="card">
+      <h2>📷 PatuKrishi Lens — OCR + Translate (All Indian Languages)</h2>
+      <p class="muted">Upload/capture an image, run OCR with the correct OCR languages, then choose an Indian language from the dropdown and click <strong>Translate</strong>.</p>
 
-    <div id="lensContainer"></div>
-  </section>
+      <!-- Preview / Camera -->
+      <div id="camera-container" style="display:none; margin-bottom:12px;">
+        <video id="video" autoplay playsinline style="background:#000;"></video>
+        <canvas id="overlay" style="display:none;"></canvas>
+        <img id="uploadedImage" class="preview" style="display:none;" alt="uploaded image preview" />
+      </div>
 
-  <!-- CONTACT -->
-  <section id="contact" style="margin-top: 6rem;">
-    <h2>Contact</h2>
-    <header>
-      <h1>📞 Contact Us</h1>
-    </header>
-    <div style="margin-top: 1rem;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <input id="imageInput" type="file" accept="image/*" />
+        <button onclick="startCamera()" class="small">Start Camera</button>
+        <button onclick="captureFromCamera()" class="small">Capture</button>
+        <button onclick="loadImageFromInput()" class="small">Load Image</button>
+      </div>
+
+      <div id="controls" style="margin-top:10px;">
+        <div style="min-width:220px;">
+          <label class="muted">OCR languages (choose one or more)</label>
+          <select id="ocrLangSelect" multiple style="min-width:220px; height:130px;"></select>
+          <div class="note">Tip: select languages that match the script in the image (e.g., Hindi for Devanagari).</div>
+        </div>
+
+        <div style="min-width:220px;">
+          <label class="muted">Translate To (choose one)</label>
+          <select id="transTarget" style="min-width:220px; height:130px;"></select>
+          <div class="note">After OCR: click <strong>Run OCR</strong>, then <strong>Translate</strong>.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+        <button onclick="runOCRNow()">Run OCR</button>
+        <button onclick="translateExtracted()" class="ghost">Translate</button>
+        <button onclick="clearLens()" class="small ghost">Clear</button>
+      </div>
+
+      <div id="results" style="margin-top:12px;"></div>
+      <textarea id="extractedText" placeholder="Extracted text will appear here..." style="margin-top:10px; width:100%;"></textarea>
+      <div id="translatedBox" style="margin-top:12px;"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="card">
+      <h2>Contact</h2>
       <p><strong>Phone:</strong> +91 98*** *****</p>
       <p><strong>Email:</strong> chanakyasahni8@gmail.com</p>
-    </div>
-  </section>
+      <div class="muted">This Website is owned by Team - The Synergistic Trio</div>
+    </section>
+  </main>
 
-  <div class="footer">This Website is owned by Team — The Synergistic Trio</div>
-
-  <!-- Tesseract (for Lens OCR) -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v4.0.2/dist/tesseract.min.js"></script>
+  <footer>© PatuKrishi Pro</footer>
 
   <script>
-    /* =================== Soil Fertility (mock) =================== */
-    function previewSoilImage() {
-      const input = document.getElementById("soilPhotoInput");
-      const preview = document.getElementById("preview");
-      preview.innerHTML = "";
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = document.createElement("img");
-          img.src = e.target.result;
-          img.style.maxWidth = "300px";
-          img.style.marginTop = "1rem";
-          img.alt = "Soil preview";
-          preview.appendChild(img);
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-    document.getElementById("soilPhotoInput").addEventListener("change", previewSoilImage);
-
-    function mockFertilityResult() {
-      const options = ["High", "Medium", "Low"];
-      const result = options[Math.floor(Math.random() * options.length)];
-      document.getElementById("fertilityResult").innerText = "Fertility Estimate: " + result;
-    }
-
-    /* =================== Weather =================== */
-    const apiKey = "7ab4aad915c97e3f0a93de8e8d570956"; // demo key
-
-    async function getWeatherByCity() {
-      const city = document.getElementById("cityInput").value.trim();
-      if (!city) {
-        document.getElementById("result").innerHTML = "⚠️ Please enter a place name!";
-        return;
-      }
-      try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)},IN&appid=${apiKey}&units=metric`);
-        const data = await response.json();
-
-        if (data.cod !== 200) {
-          document.getElementById("result").innerHTML = `⚠️ "${city}" not found, fetching nearest location...`;
-
-          const geoRes = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)},IN&limit=1&appid=${apiKey}`);
-          const geoData = await geoRes.json();
-
-          if (Array.isArray(geoData) && geoData.length > 0) {
-            const lat = geoData[0].lat;
-            const lon = geoData[0].lon;
-
-            const nearestWeather = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
-            const nearestData = await nearestWeather.json();
-            showWeather(nearestData, `Nearest location: ${nearestData.name}`);
-          } else {
-            document.getElementById("result").innerHTML = "❌ Location not available, try GPS button.";
-          }
-        } else {
-          showWeather(data, `Exact match: ${data.name}`);
-        }
-      } catch (error) {
-        document.getElementById("result").innerHTML = "⚠️ Network / API error. Check console.";
-        console.error("Weather API error:", error);
-      }
-    }
-
-    function getWeatherByLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async position => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-
-          try {
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
-            const data = await response.json();
-
-            if (data.cod !== 200) {
-              document.getElementById("result").innerHTML = `❌ Error: ${data.message}`;
-            } else {
-              showWeather(data, "Your GPS location");
-            }
-          } catch (error) {
-            document.getElementById("result").innerHTML = "⚠️ Network / API error. Check console.";
-            console.error("Weather API error:", error);
-          }
-        }, () => {
-          document.getElementById("result").innerHTML = "⚠️ Location access denied.";
-        });
-      } else {
-        document.getElementById("result").innerHTML = "⚠️ Geolocation not supported.";
-      }
-    }
-
-    function showWeather(data, source = "Location") {
-      document.getElementById("result").innerHTML = `
-        <b>📍 ${source}:</b> ${data.name} <br>
-        🌡️ Temperature: ${data.main.temp} °C <br>
-        ☁️ Condition: ${data.weather && data.weather[0] ? data.weather[0].description : "N/A"} <br>
-        💧 Humidity: ${data.main.humidity}% <br>
-        🌬️ Wind Speed: ${data.wind.speed} m/s
-      `;
-    }
-
-    /* =================== Crop Advisory Data =================== */
+    /* ------------------ Crop Data ------------------ */
     const cropData = {
       "Punjab": { "Rabi": "Wheat, Mustard, Barley", "Kharif": "Paddy, Cotton, Maize", "Zaid": "Moong, Watermelon, Cucumber" },
       "Rajasthan": { "Rabi": "Wheat, Mustard, Gram", "Kharif": "Bajra, Jowar, Moong", "Zaid": "Watermelon, Pumpkin, Cucumber" },
@@ -331,112 +272,250 @@
       "Uttarakhand": { "Rabi": "Wheat, Mustard, Gram", "Kharif": "Rice, Maize, Bajra", "Zaid": "Cucumber, Watermelon, Moong" }
     };
 
-    function updateCropInfoBySeason() {
+    function updateCropInfoBySeason(){
       const state = document.getElementById('stateSelect').value;
       const season = document.getElementById('seasonSelect').value;
-      if (state && season && cropData[state] && cropData[state][season]) {
-        const crops = cropData[state][season];
-        document.getElementById('cropOutput').innerHTML =
-          `<p><strong>${season} Crops in ${state}:</strong> ${crops}</p>`;
-      } else if (state || season) {
-        document.getElementById('cropOutput').innerHTML =
-          `<p><em>No data available for the selected combination.</em></p>`;
+      const out = document.getElementById('cropOutput');
+      if (cropData[state] && cropData[state][season]) {
+        out.innerHTML = `<div class="pill"><strong>${season} Crops in ${state}:</strong> ${cropData[state][season]}</div>`;
       } else {
-        document.getElementById('cropOutput').innerHTML = ``;
+        out.innerHTML = `<p class="muted"><em>No data available for the selected combination.</em></p>`;
       }
     }
 
-    /* =================== Krishi Bot =================== */
+    /* ---------- Soil fertility mock ---------- */
+    function previewSoilImage() {
+      const input = document.getElementById("soilPhotoInput");
+      const preview = document.getElementById("previewSoil");
+      preview.innerHTML = "";
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.className = 'preview';
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    function mockFertilityResult(){
+      const options = ["High","Medium","Low"];
+      const res = options[Math.floor(Math.random()*options.length)];
+      document.getElementById("fertilityResult").innerText = "Fertility Estimate: " + res;
+    }
+
+    /* ---------- Weather (OpenWeather) ---------- */
+    const apiKey = "7ab4aad915c97e3f0a93de8e8d570956";
+    async function getWeatherByCity(){
+      const city = document.getElementById("cityInput").value.trim();
+      const out = document.getElementById("result");
+      if (!city) { out.innerHTML = "⚠️ Please enter a place name!"; return; }
+      out.innerHTML = "Loading weather...";
+      try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)},IN&appid=${apiKey}&units=metric`);
+        const data = await response.json();
+        if (data.cod !== 200) {
+          out.innerHTML = `⚠️ "${city}" not found, try GPS or a nearby town.`;
+        } else {
+          out.innerHTML = `<b>📍 ${data.name}:</b> ${data.main.temp} °C — ${data.weather[0].description} <br>Humidity: ${data.main.humidity}% · Wind: ${data.wind.speed} m/s`;
+        }
+      } catch(e){ out.innerHTML = "⚠️ Weather error"; console.error(e); }
+    }
+    function getWeatherByLocation(){
+      const out = document.getElementById("result");
+      if (!navigator.geolocation) { out.innerHTML = "⚠️ Geolocation not supported."; return; }
+      out.innerHTML = "Getting location...";
+      navigator.geolocation.getCurrentPosition(async pos => {
+        try {
+          const lat = pos.coords.latitude, lon = pos.coords.longitude;
+          const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
+          const data = await response.json();
+          if (data.cod !== 200) out.innerHTML = `❌ ${data.message}`;
+          else out.innerHTML = `<b>📍 ${data.name}:</b> ${data.main.temp} °C — ${data.weather[0].description} <br>Humidity: ${data.main.humidity}% · Wind: ${data.wind.speed} m/s`;
+        } catch(e){ out.innerHTML = "⚠️ Weather error"; console.error(e); }
+      }, ()=>{ out.innerHTML = "⚠️ Location access denied."; });
+    }
+
+    /* ---------- Krishi Bot (comprehensive) ---------- */
     const chatbox = document.getElementById("chatbox");
     const userInput = document.getElementById("userInput");
     const languageSelect = document.getElementById("language");
-    const lensBtn = document.getElementById("lensBtn");
-    const lensContainer = document.getElementById("lensContainer");
-
-    function appendMessage(sender, message) {
-      const msg = document.createElement("div");
-      msg.textContent = `${sender}: ${message}`;
-      chatbox.appendChild(msg);
-      chatbox.scrollTop = chatbox.scrollHeight;
-    }
-    function speak(message, lang) {
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = lang === "hi" ? "hi-IN" : "en-US";
-      speechSynthesis.speak(utterance);
-    }
-
-    function quickAsk(text) {
-      userInput.value = text;
-      sendMessage();
-    }
 
     const responses = {
       "hello":{en:"Hello! How are you doing?",hi:"नमस्ते! आप कैसे हैं?",roman:"Namaste! Aap kaise hain?"},
-      "hi":{en:"Hello! How are you doing?",hi:"नमस्ते! आप कैसे हैं?",roman:"Namaste! Aap kaise hain?"},
-      "bye":{en:"Bye-bye! Hope to see you soon!",hi:"अलविदा! फिर मिलेंगे!",roman:"Alvida! Phir milenge!"},
+      "how are you":{en:"I'm a bot — ready to help!",hi:"मैं मदद के लिए तैयार हूँ!",roman:"Main madad ke liye tayyar hoon!"},
+      "what is your name":{en:"My name is Krishi Bot.",hi:"मेरा नाम कृषी बॉट है।",roman:"Mera naam Krishi Bot hai."},
       "thanks":{en:"Always here to help!",hi:"हमेशा सेवा में!",roman:"Hamesha seva mein!"},
-      "sorry":{en:"No problem!",hi:"कोई बात नहीं!",roman:"Koi baat nahi!"},
-      "fine":{en:"That's great to know!",hi:"यह सुनकर अच्छा लगा।",roman:"Yeh sunkar accha laga."},
-      "how are you":{en:"I am just a bot, but thank you!",hi:"मैं तो बस एक बॉट हूँ, लेकिन धन्यवाद!",roman:"Main to bas ek bot hoon, lekin dhanyavaad!"},
-      "what is your name":{en:"My name is Krishi Bot!",hi:"मेरा नाम कृषी बॉट है!",roman:"Mera naam Krishi Bot hai!"},
-      "aapka naam kya hai":{en:"My name is Krishi Bot!",hi:"मेरा नाम कृषी बॉट है!",roman:"Mera naam Krishi Bot hai!"},
-      "what is agriculture":{en:"Agriculture is the science of growing crops and raising animals.",hi:"कृषि फसलों की खेती और पशुपालन का विज्ञान है।",roman:"Krishi faslon ki kheti aur pashupalan ka vigyan hai."},
-      "krishi kya hai":{en:"Agriculture is the science of growing crops and raising animals.",hi:"कृषि फसलों की खेती और पशुपालन का विज्ञान है।",roman:"Krishi faslon ki kheti aur pashupalan ka vigyan hai."},
-      "how to grow more from a piece of land":{
-        en:"How to Grow More:\n- Intercropping\n- Crop Rotation\n- HYV Seeds\n- Organic Fertilizer\n- Drip Irrigation\n- Double Cropping\n- Greenhouse Farming\n- Weed Control",
-        hi:"एक ही ज़मीन पर ज्यादा फसल कैसे उगाएं:\n- मिश्र फसल (Intercropping)\n- फसल चक्र (Crop Rotation)\n- उच्च उत्पादक बीज\n- जैविक खाद\n- ड्रिप सिंचाई\n- दोहरी फसल\n- ग्रीनहाउस खेती\n- निराई-गुड़ाई",
-        roman:"Ek hi zameen par zyada fasal kaise ugaayein:\n- Mishrit fasal\n- Fasal chakra\n- Uchh utpadak beej\n- Jaivik khaad\n- Drip sinchaai\n- Dohri fasal\n- Greenhouse kheti\n- Niraai-gudaai"
+      "how to grow more from a piece of land": {
+        en: "How to Grow More:\n- Intercropping\n- Crop Rotation\n- HYV Seeds\n- Organic Fertilizer\n- Drip Irrigation\n- Double Cropping\n- Greenhouse Farming\n- Weed Control",
+        hi: "एक ही ज़मीन पर ज्यादा फसल कैसे उगाएं:\n- मिश्र फसल (Intercropping)\n- फसल चक्र (Crop Rotation)\n- उच्च उत्पादक बीज\n- जैविक खाद\n- ड्रिप सिंचाई\n- दोहरी फसल\n- ग्रीनहाउस खेती\n- निराई-गुड़ाई",
+        roman: "Ek hi zameen par zyada fasal kaise ugaayein:\n- Mishrit fasal\n- Fasal chakra\n- Uchh utpadak beej\n- Jaivik khaad\n- Drip sinchaai\n- Dohri fasal\n- Greenhouse kheti\n- Niraai-gudaai"
       },
-      "types of soil":{
-        en:"Types of Soil in India:\n1. Alluvial Soil\n2. Black Soil\n3. Red Soil\n4. Laterite Soil\n5. Desert Soil\n6. Mountain Soil",
+      "types of soil": { en: "Types of Soil in India:\n1. Alluvial Soil\n2. Black Soil\n3. Red Soil\n4. Laterite Soil\n5. Desert Soil\n6. Mountain Soil",
         hi:"भारत में मृदा के प्रकार:\n1. जलोढ़ मिट्टी\n2. काली मिट्टी\n3. लाल मिट्टी\n4. लेटराइट मिट्टी\n5. मरुस्थलीय मिट्टी\n6. पर्वतीय मिट्टी",
         roman:"Bharat mein mrida ke prakar:\n1. Jalod mitti\n2. Kali mitti\n3. Laal mitti\n4. Laterite mitti\n5. Marusthal mitti\n6. Parvatiya mitti"
       },
-      "government schemes for farmers":{
-        en:"Major Schemes:\n- PM-KISAN: ₹6000 yearly\n- PMFBY: Crop Insurance\n- KCC: Loan facility\n- eNAM: Online crop market\n- Soil Health Card\n- National Mission on Sustainable Agriculture",
-        hi:"किसानों के लिए योजनाएं:\n- पीएम किसान: ₹6000 सालाना\n- पीएम फसल बीमा योजना: बीमा\n- किसान क्रेडिट कार्ड: ऋण सुविधा\n- ई-नाम: ऑनलाइन मंडी\n- मृदा स्वास्थ्य कार्ड\n- टिकाऊ कृषि मिशन",
-        roman:"Kisano ke liye yojanaayein:\n- PM Kisan: ₹6000 saalana\n- PM Fasal Beema Yojana: Beema\n- Kisan Credit Card: Rin suvidha\n- eNAM: Online mandi\n- Mrida Swasthya Card\n- Tikaau Krishi Mission"
+      "water management": { en: "Tips:\n- Rainwater harvesting\n- Drip irrigation\n- Mulching\n- Traditional water systems\n- Groundwater recharge",
+        hi:"टिप्स:\n- वर्षा जल संचयन\n- ड्रिप सिंचाई\n- मल्चिंग\n- पारंपरिक जल प्रणाली\n- भूजल पुनर्भरण",
+        roman:"Tips:\n- Varsha jal sanchayan\n- Drip sinchaai\n- Mulching\n- Paaramparik jal pranali\n- Bhoojal punarbharn"
       },
-      "prime minister of india":{en:"Prime Minister of India (2025) is Narendra Modi.",hi:"भारत के प्रधानमंत्री (2025) नरेंद्र मोदी हैं।",roman:"Bharat ke Pradhan Mantri (2025) Narendra Modi hain."},
-      "president of india":{en:"President of India (2025) is Droupadi Murmu.",hi:"भारत की राष्ट्रपति (2025) द्रौपदी मुर्मू हैं।",roman:"Bharat ki Rashtrapati (2025) Droupadi Murmu hain."},
-      "animals":{en:"Farm animals include cows, buffaloes, goats, sheep, chickens, and pigs. Dairy, meat, and wool are their products.",hi:"कृषि पशु में गाय, भैंस, बकरी, भेड़, मुर्गी और सूअर शामिल हैं। इनसे दूध, मांस और ऊन मिलता है।",roman:"Krishi pashu mein gaay, bhains, bakri, bhed, murgi aur suar shamil hain. Inse doodh, maans aur oon milta hai."},
-      "animal feed":{en:"Common animal feeds: grass, hay, grains, silage, and concentrated feed.",hi:"सामान्य पशु आहार: घास, भूसा, अनाज, सिलेज और कंसंट्रेटेड फ़ीड।",roman:"Saamanya pashu aahaar: ghaas, bhusa, anaaj, silage aur concentrated feed."},
-      "water management":{en:"Tips:\n- Rainwater harvesting\n- Drip irrigation\n- Mulching\n- Traditional water systems\n- Groundwater recharge",hi:"टिप्स:\n- वर्षा जल संचयन\n- ड्रिप सिंचाई\n- मल्चिंग\n- पारंपरिक जल प्रणाली\n- भूजल पुनर्भरण",roman:"Tips:\n- Varsha jal sanchayan\n- Drip sinchaai\n- Mulching\n- Paaramparik jal pranali\n- Bhoojal punarbharn"}
+      "pesticide": { en: "Use registered pesticides, follow label instructions, wear PPE, avoid overuse and follow pre-harvest intervals.",
+        hi: "पंजीकृत कीटनाशक का उपयोग करें, निर्देश पढ़ें, सुरक्षा उपकरण पहनें और ओवरयूज़ से बचें।",
+        roman: "Panjikrit keetnashak ka upyog karein, nirdesh padhein, suraksha upkaran pehnein."
+      },
+      "fertilizer": { en: "Use soil testing for fertilizer recommendations, balance NPK, prefer organic sources when possible.",
+        hi: "उर्वरक की सिफारिश के लिए मृदा परीक्षण करें, NPK संतुलित रखें, जहां संभव हो जैविक स्रोत अपनाएँ।",
+        roman: "Urvarak ke liye mrida parikshan karein, NPK santulit rakhein."
+      },
+      "animals": { en: "Farm animals: cows, buffaloes, goats, sheep, chickens. Focus on nutrition, vaccination, clean housing.",
+        hi: "कृषि पशु: गाय, भैंस, बकरी, भेड़, मुर्गी। पोषण, टीकाकरण और साफ आवास पर ध्यान दें।",
+        roman: "Krishi pashu: gaay, bhains, bakri, bhed, murgi. Poshan, tikaakaran, saaf aavaas."
+      },
+      "government schemes for farmers": { en: "Major Schemes:\n- PM-KISAN: direct income support\n- PMFBY: Crop insurance\n- KCC: Farm loans\n- eNAM: Online trading\n- Soil Health Card",
+        hi: "मुख्य योजनाएँ:\n- पीएम-किसान\n- पीएमएफबीवाई: फसल बीमा\n- किसान क्रेडिट कार्ड\n- ई-नाम: ऑनलाइन मंडी\n- मृदा स्वास्थ्य कार्ड",
+        roman: "Mukhya yojanaayein: PM-KISAN, PMFBY, KCC, eNAM, Soil Health Card"
+      }
     };
 
-    // CM Data for 28 states
-    const stateData = [
-      {state:"Andhra Pradesh",capital:"Amaravati",cm:"N. Chandrababu Naidu"},
-      {state:"Arunachal Pradesh",capital:"Itanagar",cm:"Pema Khandu"},
-      {state:"Assam",capital:"Dispur",cm:"Himanta Biswa Sarma"},
-      {state:"Bihar",capital:"Patna",cm:"Nitish Kumar"},
-      {state:"Chhattisgarh",capital:"Raipur",cm:"Vishnu Deo Sai"},
-      {state:"Goa",capital:"Panaji",cm:"Pramod Sawant"},
-      {state:"Gujarat",capital:"Gandhinagar",cm:"Bhupendra Patel"},
-      {state:"Haryana",capital:"Chandigarh",cm:"Nayab Singh Saini"},
-      {state:"Himachal Pradesh",capital:"Shimla",cm:"Sukhvinder Singh Sukhu"},
-      {state:"Jharkhand",capital:"Ranchi",cm:"Hemant Soren"},
-      {state:"Karnataka",capital:"Bengaluru",cm:"Siddaramaiah"},
-      {state:"Kerala",capital:"Thiruvananthapuram",cm:"Pinarayi Vijayan"},
-      {state:"Madhya Pradesh",capital:"Bhopal",cm:"Mohan Yadav"},
-      {state:"Maharashtra",capital:"Mumbai",cm:"Devendra Fadnavis"},
-      {state:"Manipur",capital:"Imphal",cm:"N. Biren Singh"},
-      {state:"Meghalaya",capital:"Shillong",cm:"Conrad Sangma"},
-      {state:"Mizoram",capital:"Aizawl",cm:"Lalduhoma"},
-      {state:"Nagaland",capital:"Kohima",cm:"Neiphiu Rio"},
-      {state:"Odisha",capital:"Bhubaneswar",cm:"Mohan Charan Majhi"},
-      {state:"Punjab",capital:"Chandigarh",cm:"Bhagwant Mann"},
-      {state:"Rajasthan",capital:"Jaipur",cm:"Bhajan Lal Sharma"},
-      {state:"Sikkim",capital:"Gangtok",cm:"Prem Singh Tamang"},
-      {state:"Tamil Nadu",capital:"Chennai",cm:"M. K. Stalin"},
-      {state:"Telangana",capital:"Hyderabad",cm:"Revanth Reddy"},
-      {state:"Tripura",capital:"Agartala",cm:"Manik Saha"},
-      {state:"Uttar Pradesh",capital:"Lucknow",cm:"Yogi Adityanath"},
-      {state:"Uttarakhand",capital:"Dehradun",cm:"Pushkar Singh Dhami"},
-      {state:"West Bengal",capital:"Kolkata",cm:"Mamata Banerjee"}
+    function appendMessage(sender, message){
+      const d = document.createElement("div");
+      d.style.padding = "6px 0";
+      d.textContent = `${sender}: ${message}`;
+      chatbox.appendChild(d);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function sendMessage(){
+      const msg = (userInput.value||"").trim();
+      if (!msg) return;
+      appendMessage("You", msg);
+      userInput.value = "";
+      let reply = "Sorry, I didn't understand that. Try: 'water management', 'types of soil', 'pesticide', 'fertilizer', 'animals', or 'government schemes for farmers'.";
+      const lower = msg.toLowerCase();
+      for (const k in responses){
+        if (lower.includes(k)){
+          const lang = languageSelect.value;
+          reply = responses[k][lang] || responses[k].en;
+          break;
+        }
+      }
+      appendMessage("Krishi Bot", reply);
+      try { const utter = new SpeechSynthesisUtterance(reply); utter.lang = (languageSelect.value==="hi"?"hi-IN":"en-US"); speechSynthesis.speak(utter); } catch(e){}
+    }
+    userInput.addEventListener("keypress", function(e){ if (e.key === "Enter") sendMessage(); });
+
+    function startRecognition(){
+      try {
+        const lang = languageSelect.value==="hi" ? "hi-IN" : "en-US";
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = lang;
+        recognition.start();
+        recognition.onresult = function(ev){ const transcript = ev.results[0][0].transcript; userInput.value = transcript; sendMessage(); };
+      } catch(e) { alert("Speech recognition not supported in this browser."); }
+    }
+
+    /* ---------- LENS OCR + Translate ---------- */
+
+    // Populate OCR languages and translate target list (all Indian + fallback)
+    const ocrLangs = [
+      {code:"eng", name:"English"},
+      {code:"hin", name:"Hindi (हिन्दी)"},
+      {code:"ben", name:"Bengali (বাংলা)"},
+      {code:"tam", name:"Tamil (தமிழ்)"},
+      {code:"tel", name:"Telugu (తెలుగు)"},
+      {code:"kan", name:"Kannada (ಕನ್ನಡ)"},
+      {code:"mal", name:"Malayalam (മലയാളം)"},
+      {code:"ori", name:"Odia (ଓଡ଼ିଆ)"},
+      {code:"guj", name:"Gujarati (ગુજરાતી)"},
+      {code:"mar", name:"Marathi (मराठी)"},
+      {code:"pan", name:"Punjabi (ਪੰਜਾਬੀ)"},
+      {code:"urd", name:"Urdu (اردو)"},
+      {code:"asm", name:"Assamese (অসমীয়া)"},
+      {code:"san", name:"Sanskrit (संस्कृतम्)"},
+      {code:"mai", name:"Maithili (मैथिली)"},
+      {code:"nep", name:"Nepali (नेपाली)"}
     ];
 
-    for (const s of stateData) {
+    const translateTargets = [
+      {code:"hi", name:"Hindi"},
+      {code:"bn", name:"Bengali"},
+      {code:"ta", name:"Tamil"},
+      {code:"te", name:"Telugu"},
+      {code:"kn", name:"Kannada"},
+      {code:"ml", name:"Malayalam"},
+      {code:"or", name:"Odia"},
+      {code:"gu", name:"Gujarati"},
+      {code:"mr", name:"Marathi"},
+      {code:"pa", name:"Punjabi"},
+      {code:"ur", name:"Urdu"},
+      {code:"as", name:"Assamese"},
+      {code:"sa", name:"Sanskrit"},
+      {code:"mai", name:"Maithili"},
+      {code:"ne", name:"Nepali"},
+      {code:"sd", name:"Sindhi"},
+      {code:"ks", name:"Kashmiri"},
+      {code:"doi", name:"Dogri"},
+      {code:"kok", name:"Konkani"},
+      {code:"bho", name:"Bhojpuri"},
+      {code:"mni", name:"Manipuri"},
+      {code:"en", name:"English"},
+      {code:"fr", name:"French"},
+      {code:"es", name:"Spanish"}
+    ];
+
+    (function populateLangs(){
+      const ocrSelect = document.getElementById('ocrLangSelect');
+      ocrLangs.forEach(l=>{
+        const opt = document.createElement('option');
+        opt.value = l.code; opt.textContent = `${l.name} (${l.code})`;
+        if (l.code==='eng' || l.code==='hin') opt.selected=true;
+        ocrSelect.appendChild(opt);
+      });
+
+      const transSelect = document.getElementById('transTarget');
+      translateTargets.forEach(t=>{
+        const opt = document.createElement('option');
+        opt.value = t.code; opt.textContent = t.name;
+        if (t.code==='hi') opt.selected=true;
+        transSelect.appendChild(opt);
+      });
+    })();
+
+    // State & CM data (full list for states in the select)
+    const stateData = [
+      {state:"Andhra Pradesh", capital:"Amaravati", cm:"N. Chandrababu Naidu"},
+      {state:"Arunachal Pradesh", capital:"Itanagar", cm:"Pema Khandu"},
+      {state:"Assam", capital:"Dispur", cm:"Himanta Biswa Sarma"},
+      {state:"Bihar", capital:"Patna", cm:"Nitish Kumar"},
+      {state:"Chhattisgarh", capital:"Raipur", cm:"Vishnu Deo Sai"},
+      {state:"Goa", capital:"Panaji", cm:"Pramod Sawant"},
+      {state:"Gujarat", capital:"Gandhinagar", cm:"Bhupendra Patel"},
+      {state:"Haryana", capital:"Chandigarh", cm:"Nayab Singh Saini"},
+      {state:"Himachal Pradesh", capital:"Shimla", cm:"Sukhvinder Singh Sukhu"},
+      {state:"Jharkhand", capital:"Ranchi", cm:"Hemant Soren"},
+      {state:"Karnataka", capital:"Bengaluru", cm:"Siddaramaiah"},
+      {state:"Kerala", capital:"Thiruvananthapuram", cm:"Pinarayi Vijayan"},
+      {state:"Madhya Pradesh", capital:"Bhopal", cm:"Mohan Yadav"},
+      {state:"Maharashtra", capital:"Mumbai", cm:"Devendra Fadnavis"},
+      {state:"Manipur", capital:"Imphal", cm:"Vacant / President's Rule"},
+      {state:"Meghalaya", capital:"Shillong", cm:"Conrad Sangma"},
+      {state:"Mizoram", capital:"Aizawl", cm:"Lalduhoma"},
+      {state:"Nagaland", capital:"Kohima", cm:"Neiphiu Rio"},
+      {state:"Odisha", capital:"Bhubaneswar", cm:"Mohan Charan Majhi"},
+      {state:"Punjab", capital:"Chandigarh", cm:"Bhagwant Mann"},
+      {state:"Rajasthan", capital:"Jaipur", cm:"Bhajan Lal Sharma"},
+      {state:"Sikkim", capital:"Gangtok", cm:"Prem Singh Tamang"},
+      {state:"Tamil Nadu", capital:"Chennai", cm:"M. K. Stalin"},
+      {state:"Telangana", capital:"Hyderabad", cm:"A. Revanth Reddy"},
+      {state:"Tripura", capital:"Agartala", cm:"Manik Saha"},
+      {state:"Uttar Pradesh", capital:"Lucknow", cm:"Yogi Adityanath"},
+      {state:"Uttarakhand", capital:"Dehradun", cm:"Pushkar Singh Dhami"},
+      {state:"West Bengal", capital:"Kolkata", cm:"Mamata Banerjee"}
+    ];
+
+    // add CM quick-answers to the bot responses
+    for(const s of stateData){
       responses[`cm of ${s.state.toLowerCase()}`] = {
         en: `${s.state}'s Chief Minister is ${s.cm}. Capital is ${s.capital}.`,
         hi: `${s.state} के मुख्यमंत्री ${s.cm} हैं। राजधानी ${s.capital} है।`,
@@ -444,159 +523,151 @@
       };
     }
 
-    function sendMessage() {
-      const message = userInput.value.trim().toLowerCase();
-      if (!message) return;
-      const lang = languageSelect.value;
-      appendMessage("You", userInput.value);
-      userInput.value = "";
-      let reply = "Sorry, I didn’t understand that.";
-      for (const key in responses) {
-        if (message.includes(key)) {
-          reply = responses[key][lang] || responses[key]["en"];
-          break;
+    /* ---------- Lens image handling & OCR ---------- */
+    let _capturedImageDataURL = null;
+    let _extractedText = "";
+
+    async function startCamera(){
+      const camContainer = document.getElementById('camera-container');
+      const video = document.getElementById('video');
+      const uploadedImage = document.getElementById('uploadedImage');
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        video.srcObject = stream;
+        camContainer.style.display = "block";
+        uploadedImage.style.display = "none";
+      } catch(e){
+        alert("Camera not available or permission denied. Use image upload instead.");
+        console.error(e);
+      }
+    }
+
+    function captureFromCamera(){
+      const video = document.getElementById('video');
+      if (!video || !video.videoWidth) { alert("Start camera first."); return; }
+      const canvas = document.getElementById('overlay');
+      canvas.style.display = 'block';
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      _capturedImageDataURL = canvas.toDataURL('image/png');
+      document.getElementById('results').innerText = "Image captured. Click Run OCR.";
+      document.getElementById('uploadedImage').style.display = 'none';
+    }
+
+    function loadImageFromInput(){
+      const f = document.getElementById('imageInput').files[0];
+      if (!f) { alert("Choose an image file first."); return; }
+      const url = URL.createObjectURL(f);
+      const uploadedImage = document.getElementById('uploadedImage');
+      uploadedImage.src = url;
+      uploadedImage.style.display = 'block';
+      document.getElementById('camera-container').style.display = 'block';
+      const img = new Image();
+      img.onload = function(){
+        const canvas = document.getElementById('overlay');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img,0,0);
+        _capturedImageDataURL = canvas.toDataURL('image/png');
+        document.getElementById('results').innerText = "Image loaded. Click Run OCR.";
+      };
+      img.src = url;
+    }
+
+    async function runOCRNow(){
+      if (!_capturedImageDataURL) { alert("No captured/uploaded image. Use camera capture or load an image."); return; }
+      const selectedOptions = Array.from(document.getElementById('ocrLangSelect').selectedOptions).map(o=>o.value);
+      const langList = selectedOptions.length ? selectedOptions.join('+') : 'eng';
+      document.getElementById('results').innerText = `Loading OCR model for ${langList}...`;
+
+      try {
+        const { data } = await Tesseract.recognize(
+          _capturedImageDataURL,
+          langList,
+          {
+            logger: m => {
+              if (m.status && (m.progress !== undefined)) {
+                document.getElementById('results').innerText = `${m.status} — ${(m.progress*100).toFixed(0)}%`;
+              }
+            },
+            langPath: "https://tessdata.projectnaptha.com/4.0.0"
+          }
+        );
+        _extractedText = (data.text || "").trim();
+        document.getElementById('extractedText').value = _extractedText || "(no text detected)";
+        document.getElementById('results').innerHTML = `<b>Extracted Text:</b><br>${_extractedText || "(empty)"}<br><span class="muted">Now choose a language and click Translate.</span>`;
+      } catch(err){
+        console.error(err);
+        document.getElementById('results').innerText = "OCR error: see console.";
+      }
+    }
+
+    async function translateExtracted(){
+      const text = (document.getElementById('extractedText').value || "").trim();
+      if (!text) { alert("No extracted text. Run OCR first."); return; }
+      const target = document.getElementById('transTarget').value || 'hi';
+      document.getElementById('translatedBox').innerHTML = "Translating...";
+      try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(target)}&dt=t&q=${encodeURIComponent(text)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Translation endpoint failed');
+        const data = await res.json();
+        const translated = (data[0] || []).map(seg => seg[0]).join('');
+        document.getElementById('translatedBox').innerHTML = `<div style="background:#fff;padding:12px;border-radius:8px;">${translated || "(no translation returned)"}</div>`;
+      } catch(e){
+        console.error(e);
+        // fallback: MyMemory
+        try {
+          const mm = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=auto|${encodeURIComponent(target)}`);
+          const mmdata = await mm.json();
+          const txt = mmdata.responseData && mmdata.responseData.translatedText ? mmdata.responseData.translatedText : "(no translation)";
+          document.getElementById('translatedBox').innerHTML = `<div style="background:#fff;padding:12px;border-radius:8px;">${txt}</div>`;
+        } catch(e2){
+          document.getElementById('translatedBox').innerHTML = `<div style="background:#fff;padding:12px;border-radius:8px;">Translation error. See console.</div>`;
         }
       }
-      appendMessage("Krishi Bot", reply);
-      speak(reply, lang);
-    }
-    userInput.addEventListener("keypress", function(e) { if (e.key === "Enter") sendMessage(); });
-
-    function startRecognition() {
-      const lang = languageSelect.value === "hi" ? "hi-IN" : "en-US";
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = lang;
-      recognition.start();
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        userInput.value = transcript;
-        sendMessage();
-      };
     }
 
-    /* =================== Lens Mode =================== */
-    lensBtn.addEventListener("click", () => {
-      document.getElementById("chatbox").style.display = "none";
-      userInput.style.display = "none";
-      document.querySelector("button[onclick='sendMessage()']").style.display = "none";
-      lensBtn.style.display = "none";
-      lensContainer.style.display = "block";
-      lensContainer.innerHTML = `
-        <h2>PatuKrishi Lens Mode</h2>
-        <div id="camera-container">
-          <video id="video" autoplay playsinline></video>
-          <canvas id="overlay"></canvas>
-          <img id="uploadedImage" style="display:none;" alt="Uploaded preview">
-          <div id="scanner-line"></div>
-        </div>
-        <div id="controls">
-          <input type="file" id="imageInput" accept="image/*">
-          <button onclick="useUploadedImage()">Use Uploaded Image</button>
-          <button onclick="captureImage()">Capture</button>
-          <select id="langSelect">
-            <option value="hi">Hindi</option>
-            <option value="bn">Bengali</option>
-            <option value="te">Telugu</option>
-            <option value="mr">Marathi</option>
-            <option value="ta">Tamil</option>
-            <option value="ur">Urdu</option>
-            <option value="gu">Gujarati</option>
-            <option value="kn">Kannada</option>
-            <option value="ml">Malayalam</option>
-            <option value="or">Odia</option>
-            <option value="pa">Punjabi</option>
-            <option value="as">Assamese</option>
-            <option value="ma">Maithili</option>
-            <option value="sa">Sanskrit</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="zh-CN">Chinese</option>
-            <option value="ar">Arabic</option>
-            <option value="es">Spanish</option>
-            <option value="ko">Korean</option>
-          </select>
-          <button onclick="translateText()">Translate</button>
-          <button onclick="simplifyText()">Simplify Text</button>
-        </div>
-        <div id="results">Status: Waiting for image or camera...</div>
-      `;
-
-      const video = document.getElementById('video');
+    function clearLens(){
+      _capturedImageDataURL = null;
+      _extractedText = "";
+      document.getElementById('results').innerText = "";
+      document.getElementById('extractedText').value = "";
+      document.getElementById('translatedBox').innerHTML = "";
+      document.getElementById('uploadedImage').src = "";
+      document.getElementById('uploadedImage').style.display = 'none';
       const canvas = document.getElementById('overlay');
-      const ctx = canvas.getContext('2d');
-      const uploadedImage = document.getElementById('uploadedImage');
-      let capturedImage = null;
-      let extractedText = "";
+      if (canvas) { const ctx = canvas.getContext('2d'); ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
+    }
 
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then(stream => { video.srcObject = stream; })
-        .catch(err => {
-          console.log("Camera not available: " + err);
-          video.style.display = "none";
-          alert("Camera not available. You can upload an image instead.");
-        });
-
-      window.captureImage = function() {
-        if (video.style.display === "none") { alert("Camera not available"); return; }
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        capturedImage = canvas.toDataURL('image/png');
-        extractedText = "";
-        document.getElementById('results').innerHTML = "Processing OCR...";
-        runOCR(capturedImage);
-      };
-
-      window.useUploadedImage = function() {
-        const file = document.getElementById('imageInput').files[0];
-        if (!file) { alert("Select an image first"); return; }
-        uploadedImage.src = URL.createObjectURL(file);
-        uploadedImage.style.display = "block";
-        video.style.display = "none";
-        uploadedImage.onload = function() {
-          canvas.width = uploadedImage.width;
-          canvas.height = uploadedImage.height;
-          ctx.drawImage(uploadedImage, 0, 0, uploadedImage.width, uploadedImage.height);
-          capturedImage = canvas.toDataURL('image/png');
-          extractedText = "";
-          document.getElementById('results').innerHTML = "Processing OCR...";
-          runOCR(capturedImage);
-        };
-      };
-
-      window.runOCR = function(dataURL) {
-        Tesseract.recognize(
-          dataURL,
-          'eng',
-          { logger: m => { if (m.progress !== undefined) document.getElementById('results').innerHTML = 'OCR Progress: ' + (m.progress * 100).toFixed(0) + '%'; } }
-        ).then(({ data: { text } }) => {
-          extractedText = (text || "").trim();
-          document.getElementById('results').innerHTML = `<b>Extracted Text:</b><br>${extractedText || "(none)"}`;
-        }).catch(err => {
-          document.getElementById('results').innerHTML = 'OCR Error: ' + err;
-        });
-      };
-
-      window.translateText = function() {
-        if (!extractedText) { alert("Capture or upload image first"); return; }
-        const targetLang = document.getElementById('langSelect').value;
-        document.getElementById('results').innerHTML += "\nTranslating...";
-        fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(extractedText)}&langpair=en|${encodeURIComponent(targetLang)}`)
-          .then(res => res.json())
-          .then(data => {
-            const t = (data && data.responseData && data.responseData.translatedText) ? data.responseData.translatedText : "(translation unavailable)";
-            document.getElementById('results').innerHTML += `<br><b>Translation:</b><br>${t}`;
-          })
-          .catch(err => document.getElementById('results').innerHTML += "<br>Translation Error: " + err);
-      };
-
-      window.simplifyText = function() {
-        if (!extractedText) { alert("Capture or upload image first"); return; }
-        let sentences = extractedText.split(/[\.\?\!]/).map(s => s.trim()).filter(s => s.length > 0);
-        let simplified = sentences.join('. ') + (sentences.length ? "." : "");
-        document.getElementById('results').innerHTML += `<br><b>Simplified Text:</b><br>${simplified}`;
+    // auto-load image input change to preview
+    document.getElementById('imageInput').addEventListener('change', function(){
+      const f = this.files[0];
+      if (!f) return;
+      const url = URL.createObjectURL(f);
+      const imgEl = document.getElementById('uploadedImage');
+      const camContainer = document.getElementById('camera-container');
+      imgEl.src = url; imgEl.onload = function(){
+        camContainer.style.display = 'block'; imgEl.style.display = 'block';
+        const canvas = document.getElementById('overlay');
+        const ctx = canvas.getContext('2d');
+        canvas.width = imgEl.naturalWidth; canvas.height = imgEl.naturalHeight;
+        ctx.drawImage(imgEl,0,0);
+        _capturedImageDataURL = canvas.toDataURL('image/png');
+        document.getElementById('results').innerText = "Image ready. Click Run OCR.";
       };
     });
+
+    // expose functions for inline buttons
+    window.runOCRNow = runOCRNow;
+    window.translateExtracted = translateExtracted;
+    window.startCamera = startCamera;
+    window.captureFromCamera = captureFromCamera;
+    window.loadImageFromInput = loadImageFromInput;
+    window.clearLens = clearLens;
   </script>
 </body>
 </html>
