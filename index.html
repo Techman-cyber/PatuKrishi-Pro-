@@ -60,6 +60,48 @@
 
   <!-- Tesseract.js v4 -->
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
+  <!-- ===== MANDI MODULE (scoped styles) ===== -->
+  <style>
+    /* Scoped to #mandiModule to avoid touching the rest of your site */
+    #mandiModule * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    #mandiModule { background: linear-gradient(135deg, #f5f9f4 0%, #e3ede0 100%); color:#333; line-height:1.6; border-radius:12px; padding:16px; }
+    #mandiModule .container { max-width: 100%; margin: 0 auto; }
+    #mandiModule header { background: linear-gradient(to right, #2e7d32, #4caf50); color: white; padding: 1.2rem; border-radius: 12px; margin-bottom: 1.2rem; text-align: center; }
+    #mandiModule h1 { font-size: 1.8rem; margin-bottom: 0.25rem; }
+    #mandiModule .subtitle { font-size: 1rem; opacity: 0.9; }
+    #mandiModule .mandi-prices-section { background-color: white; border-radius: 12px; padding: 1.2rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); margin-bottom: 1rem; }
+    #mandiModule .section-title { color: #2e7d32; text-align: center; margin-bottom: 1rem; font-size: 1.4rem; position: relative; padding-bottom:6px; }
+    #mandiModule .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: #4caf50; border-radius: 2px; }
+    #mandiModule .selection-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    #mandiModule .input-group { display:flex; flex-direction:column; }
+    #mandiModule .input-group label { font-weight: 600; margin-bottom: 6px; color: #555; }
+    #mandiModule .input-group select { padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; background-color: #f9f9f9; }
+    #mandiModule .fetch-btn { grid-column: 1 / -1; padding: 14px; background: linear-gradient(to right, #4caf50, #2e7d32); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+    #mandiModule .fetch-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
+    #mandiModule .fetch-btn:disabled { background: #ccc; cursor: not-allowed; }
+    #mandiModule .results-container { margin-top: 16px; }
+    #mandiModule .results-title { font-size: 1.2rem; color: #2e7d32; margin-bottom: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 6px; }
+    #mandiModule .mandi-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    #mandiModule .mandi-card { background: linear-gradient(to bottom, #ffffff, #f1f8e9); border-radius: 12px; padding: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-left: 5px solid #4caf50; transition: all 0.3s; }
+    #mandiModule .mandi-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
+    #mandiModule .mandi-name { font-size: 1.1rem; font-weight: 700; color: #2e7d32; margin-bottom: 6px; }
+    #mandiModule .mandi-location { color: #666; margin-bottom: 10px; font-size: 0.95rem; }
+    #mandiModule .price-list { list-style: none; margin-top: 10px; padding-left:0; }
+    #mandiModule .price-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #e0e0e0; }
+    #mandiModule .price-item:last-child { border-bottom: none; }
+    #mandiModule .commodity { font-weight: 500; }
+    #mandiModule .price { font-weight: 700; color: #2e7d32; font-size: 1.05rem; }
+    #mandiModule .last-updated { text-align: right; font-size: 0.85rem; color: #888; margin-top: 10px; }
+    #mandiModule .no-results { text-align: center; padding: 24px 12px; color: #757575; font-style: italic; grid-column: 1 / -1; background-color: #f9f9f9; border-radius: 12px; border: 2px dashed #ddd; }
+    #mandiModule .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; grid-column: 1 / -1; }
+    #mandiModule .spinner { width: 40px; height: 40px; border: 5px solid #f3f3f3; border-top: 5px solid #4caf50; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 12px; }
+    #mandiModule footer { text-align:center; margin-top:16px; color:#666; font-size:0.9rem; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @media(max-width:768px){
+      #mandiModule .selection-container { grid-template-columns:1fr; }
+    }
+  </style>
 </head>
 <body>
   <nav>
@@ -79,7 +121,7 @@
     <!-- HOME / INTRO -->
     <section id="home" class="card">
       <h2>Welcome to PatuKrishi Pro</h2>
-      <p class="muted"Welcome to PatuKrishi Pro – Your all-in-one farming guide.</h2>
+      <p class="muted">Welcome to PatuKrishi Pro – Your all-in-one farming guide.</p>
       <p><strong>PatuKrishi</strong> is an innovative agricultural technology solution designed to empower farmers by providing precise and timely information crucial for successful farming. This smart product helps farmers determine the optimal cropping season for specific crops based on their region, ensuring better yields and reduced risks.</p>
       <p>Beyond just cropping advice, PatuKrishi integrates advanced climate forecasting and precipitation prediction, allowing farmers to plan their activities around weather patterns effectively. One of its standout features is the ability to analyze soil fertility simply by capturing a photo, leveraging AI-driven image recognition to give instant, accurate feedback about soil health.</p>
       <p>Complementing these features, PatuKrishi includes an intelligent AI assistant (in the Pro version) that responds to farmers’ questions in real-time, offering expert guidance on a wide range of agricultural topics in regional languages.</p>
@@ -138,6 +180,118 @@
         <span id="fertilityResult" style="margin-left:12px; font-weight:600;"></span>
       </div>
     </section>
+
+    <!-- ====== MANDI PRICES (Mock) — added right after Soil Fertility ====== -->
+    <section id="mandi" class="card">
+      <h2>💹 Mandi Prices</h2>
+      <div id="mandiModule" class="container">
+        <header>
+          <h1>PatuKrishi - Mandi Prices</h1>
+          <p class="subtitle">Agricultural Market Prices Solution</p>
+        </header>
+
+        <div class="mandi-prices-section">
+          <h2 class="section-title">Find Mandi Prices ( Mock )</h2>
+
+          <div class="selection-container">
+            <!-- State -->
+            <div class="input-group">
+              <label for="mp-stateSelect">Select State:</label>
+              <select id="mp-stateSelect">
+                <option value="">-- Select your state --</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+              </select>
+            </div>
+
+            <!-- District -->
+            <div class="input-group">
+              <label for="mp-districtSelect">Select District:</label>
+              <select id="mp-districtSelect" disabled>
+                <option value="">-- Please select state first --</option>
+              </select>
+            </div>
+
+            <!-- Crop Filter -->
+            <div class="input-group">
+              <label for="mp-commoditySelect">Filter by Crop:</label>
+              <select id="mp-commoditySelect">
+                <option value="">All Crops</option>
+                <option value="wheat">Wheat</option>
+                <option value="rice">Rice</option>
+                <option value="tomato">Tomato</option>
+                <option value="potato">Potato</option>
+                <option value="onion">Onion</option>
+                <option value="cotton">Cotton</option>
+                <option value="maize">Maize</option>
+                <option value="sugarcane">Sugarcane</option>
+                <option value="soybean">Soybean</option>
+                <option value="mustard">Mustard</option>
+                <option value="barley">Barley</option>
+                <option value="millet">Millet</option>
+                <option value="groundnut">Groundnut</option>
+                <option value="pulses">Pulses</option>
+                <option value="chili">Chili</option>
+                <option value="cabbage">Cabbage</option>
+                <option value="cauliflower">Cauliflower</option>
+                <option value="brinjal">Brinjal</option>
+                <option value="cucumber">Cucumber</option>
+                <option value="banana">Banana</option>
+                <option value="mango">Mango</option>
+                <option value="apple">Apple</option>
+                <option value="grapes">Grapes</option>
+                <option value="orange">Orange</option>
+                <option value="pineapple">Pineapple</option>
+                <option value="guava">Guava</option>
+                <option value="watermelon">Watermelon</option>
+                <option value="muskmelon">Muskmelon</option>
+                <option value="lemon">Lemon</option>
+                <option value="papaya">Papaya</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="fetch-btn" id="mp-fetchPricesBtn" disabled>Get Mandi Prices</button>
+
+          <div class="results-container">
+            <h3 class="results-title">Current Market Prices</h3>
+            <div class="mandi-cards" id="mp-mandiCards">
+              <div class="no-results">
+                <p>Select your state and district to view mandi prices</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer>&copy; 2023 PatuKrishi. All rights reserved.</footer>
+      </div>
+    </section>
+    <!-- ====== /MANDI PRICES ====== -->
 
     <!-- WEATHER -->
     <section id="weather" class="card">
@@ -597,7 +751,7 @@
           }
         );
         _extractedText = (data.text || "").trim();
-        document.getElementById('extractedText').value = _extractedText || "(no text detected)";
+        document.getElementById('extractedText').value = _extractedText || "(no text detected) ";
         document.getElementById('results').innerHTML = `<b>Extracted Text:</b><br>${_extractedText || "(empty)"}<br><span class="muted">Now choose a language and click Translate.</span>`;
       } catch(err){
         console.error(err);
@@ -668,6 +822,164 @@
     window.captureFromCamera = captureFromCamera;
     window.loadImageFromInput = loadImageFromInput;
     window.clearLens = clearLens;
+
+    /* ======= MANDI MODULE SCRIPT (scoped & namespaced) ======= */
+    (function(){
+      // All states and districts data
+      const districtsByState = {
+        "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", "Krishna", "Kurnool", "Nellore", "Prakasam", "Srikakulam", "Visakhapatnam", "West Godavari", "YSR Kadapa"],
+        "Arunachal Pradesh": ["Tawang", "West Kameng", "East Kameng", "Papum Pare", "Kurung Kumey", "Kra Daadi", "Lower Subansiri", "Upper Subansiri", "West Siang", "East Siang", "Siang", "Upper Siang", "Lower Siang", "Changlang", "Tirap", "Longding"],
+        "Assam": ["Baksa", "Barpeta", "Bongaigaon", "Cachar", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Goalpara", "Golaghat", "Hailakandi", "Jorhat", "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhisarai", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"],
+        "Bihar": ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"],
+        "Chhattisgarh": ["Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Janjgir-Champa", "Jashpur", "Kabirdham", "Kanker", "Korba", "Kondagaon", "Koriya", "Mahasamund", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sukma", "Surajpur", "Surguja"],
+        "Goa": ["North Goa", "South Goa"],
+        "Gujarat": ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udepur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kachchh", "Kheda", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"],
+        "Haryana": ["Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Mahendragarh", "Nuh", "Palwal", "Panchkula", "Pataudi", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"],
+        "Himachal Pradesh": ["Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul and Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"],
+        "Jharkhand": ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garmah", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahibganj", "Seraikela Kharsawan", "Simdega", "West Singhbhum"],
+        "Karnataka": ["Bagalkot", "Bangalore Rural", "Bangalore Urban", "Belagavi", "Bellary", "Bidar", "Chamarajanagar", "Chikkaballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kolar", "Koppal", "Mandya", "Mysuru", "Raichur", "Ramanagara", "Shivamogga", "Tumakuru", "Udupi", "Uttara Kannada", "Vijayapura", "Vijayanagara", "Yadgir"],
+        "Kerala": ["Alappuzha", "Ernakulam", "Idukki", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"],
+        "Madhya Pradesh": ["Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Hoshangabad", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"],
+        "Maharashtra": ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"],
+        "Manipur": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
+        "Meghalaya": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"],
+        "Mizoram": ["Aizawl", "Champhai", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Serchhip", "Hnahthial"],
+        "Nagaland": ["Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Peren", "Phek", "Tuensang", "Wokha", "Zunheboto"],
+        "Odisha": ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Sonepur", "Sundergarh"],
+        "Punjab": ["Amritsar", "Barnala", "Bathinda", "Fatehgarh Sahib", "Fazilka", "Firozpur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Mansa", "Moga", "Muktsar", "Pathankot", "Patiala", "Rupnagar", "Sangrur", "Shaheed Bhagat Singh Nagar", "Tarn Taran"],
+        "Rajasthan": ["Ajmer", "Alwar", "Banswara", "Baran", "Barmer", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Dholpur", "Dungarpur", "Hanumangarh", "Jaipur", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Karauli", "Kota", "Nagaur", "Pali", "Pratapgarh", "Rajsamand", "Sawai Madhopur", "Sikar", "Sirohi", "Sri Ganganagar", "Tonk", "Udaipur"],
+        "Sikkim": ["East Sikkim", "North Sikkim", "South Sikkim", "West Sikkim"],
+        "Tamil Nadu": ["Ariyalur", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Salem", "Sivaganga", "Tanjore", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"],
+        "Telangana": ["Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Kothagudem", "Mahabubabad", "Mahbubnagar", "Mancherial", "Medak", "Medchal-Malkajgiri", "Nagarkurnool", "Nalgonda", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal Rural", "Warangal Urban", "Yadadri Bhuvanagiri"],
+        "Tripura": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
+        "Uttar Pradesh": ["Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Gurugram", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kanshiram Nagar", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Rae Bareli", "Rampur", "Saharanpur", "Sambhal", "Siddharthnagar", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"],
+        "Uttarakhand": ["Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh", "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"],
+        "West Bengal": ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dooars", "Dhanbad", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"]
+      };
+
+      // elements
+      const stateSelect = document.getElementById('mp-stateSelect');
+      const districtSelect = document.getElementById('mp-districtSelect');
+      const commoditySelect = document.getElementById('mp-commoditySelect');
+      const fetchBtn = document.getElementById('mp-fetchPricesBtn');
+      const mandiCards = document.getElementById('mp-mandiCards');
+
+      document.addEventListener('DOMContentLoaded', () => {
+        stateSelect.addEventListener('change', () => {
+          const state = stateSelect.value;
+          districtSelect.innerHTML = '<option value="">-- Select your district --</option>';
+          if (state && districtsByState[state]) {
+            districtsByState[state].forEach(d => {
+              const option = document.createElement('option');
+              option.value = d;
+              option.textContent = d;
+              districtSelect.appendChild(option);
+            });
+            districtSelect.disabled = false;
+          } else {
+            districtSelect.disabled = true;
+          }
+          fetchBtn.disabled = true;
+        });
+
+        districtSelect.addEventListener('change', () => {
+          fetchBtn.disabled = !districtSelect.value;
+        });
+
+        fetchBtn.addEventListener('click', () => {
+          const state = stateSelect.value;
+          const district = districtSelect.value;
+          const crop = commoditySelect.value;
+          fetchMandiPrices(state, district, crop);
+        });
+      });
+
+      // Mock data generator
+      function generateMockData(state, district, crop, maxResults) {
+        const cropOptions = [
+          { name: 'Wheat', price: 2150, unit: 'quintal' },
+          { name: 'Rice', price: 1890, unit: 'quintal' },
+          { name: 'Tomato', price: 40, unit: 'kg' },
+          { name: 'Potato', price: 25, unit: 'kg' },
+          { name: 'Onion', price: 35, unit: 'kg' },
+          { name: 'Cotton', price: 6500, unit: 'quintal' },
+          { name: 'Maize', price: 1800, unit: 'quintal' },
+          { name: 'Sugarcane', price: 320, unit: 'quintal' },
+          { name: 'Soybean', price: 4200, unit: 'quintal' },
+          { name: 'Mustard', price: 5200, unit: 'quintal' },
+          { name: 'Barley', price: 1500, unit: 'quintal' },
+          { name: 'Millet', price: 1600, unit: 'quintal' },
+          { name: 'Groundnut', price: 4000, unit: 'quintal' },
+          { name: 'Pulses', price: 5000, unit: 'quintal' },
+          { name: 'Chili', price: 7500, unit: 'quintal' },
+          { name: 'Cabbage', price: 15, unit: 'kg' },
+          { name: 'Cauliflower', price: 20, unit: 'kg' },
+          { name: 'Brinjal', price: 25, unit: 'kg' },
+          { name: 'Cucumber', price: 18, unit: 'kg' },
+          { name: 'Banana', price: 30, unit: 'dozen' },
+          { name: 'Mango', price: 50, unit: 'kg' },
+          { name: 'Apple', price: 120, unit: 'kg' },
+          { name: 'Grapes', price: 80, unit: 'kg' },
+          { name: 'Orange', price: 40, unit: 'kg' },
+          { name: 'Pineapple', price: 35, unit: 'kg' },
+          { name: 'Guava', price: 40, unit: 'kg' },
+          { name: 'Watermelon', price: 20, unit: 'kg' },
+          { name: 'Muskmelon', price: 25, unit: 'kg' },
+          { name: 'Lemon', price: 15, unit: 'kg' },
+          { name: 'Papaya', price: 30, unit: 'kg' }
+        ];
+
+        const filteredCrops = crop ? cropOptions.filter(c => c.name.toLowerCase() === crop.toLowerCase()) : cropOptions;
+
+        const data = [];
+        for (let i=0; i<maxResults; i++) {
+          data.push({
+            mandi: `${district} Market ${i+1}`,
+            location: district,
+            prices: filteredCrops.slice(0, Math.min(4, filteredCrops.length))
+          });
+        }
+        return data;
+      }
+
+      function displayMandiPrices(data) {
+        if (!data || data.length===0) {
+          mandiCards.innerHTML = '<div class="no-results"><p>No data available</p></div>';
+          return;
+        }
+        mandiCards.innerHTML = '';
+        data.forEach(m => {
+          const card = document.createElement('div');
+          card.className = 'mandi-card';
+          let pricesHTML = '';
+          m.prices.forEach(p => {
+            pricesHTML += `
+              <li class="price-item">
+                <span class="commodity">${p.name}</span>
+                <span class="price">₹${p.price.toLocaleString('en-IN')} / ${p.unit}</span>
+              </li>`;
+          });
+          card.innerHTML = `
+            <h3 class="mandi-name">${m.mandi}</h3>
+            <p class="mandi-location">${m.location}</p>
+            <ul class="price-list">${pricesHTML}</ul>
+            <p class="last-updated">Updated: ${new Date().toLocaleString()}</p>`;
+          mandiCards.appendChild(card);
+        });
+      }
+
+      async function fetchMandiPrices(state, district, crop) {
+        mandiCards.innerHTML = `
+          <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+          </div>`;
+        await new Promise(r=>setTimeout(r,1200));
+        const data = generateMockData(state, district, crop, 5);
+        displayMandiPrices(data);
+      }
+    })();
+    /* ======= /MANDI MODULE ======= */
   </script>
 </body>
 </html>
