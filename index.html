@@ -302,39 +302,17 @@
       <div id="result" style="margin-top:12px;"></div>
     </section>
 
-    <!-- KRISHI BOT (comprehensive) -->
+   <!-- KRISHI BOT (Chatbot section) -->
     <section id="krishi" class="card">
-      <h2>🌾 Krishi Bot — Agriculture, Animals, Water, Fertilizer, Pesticide & Schemes</h2>
-
-      <div id="languageSelect" style="margin-bottom:8px;">
-        <label class="muted">Bot Language</label>
-        <select id="language">
-          <option value="en">English</option>
-          <option value="hi">हिन्दी</option>
-          <option value="roman">Hindi (Romanized)</option>
-        </select>
-        <button onclick="startRecognition()" class="small" style="margin-left:8px;">🎤 Mic</button>
-      </div>
-
-      <div id="chatbox" style="border:1px solid #eee; padding:10px; border-radius:8px; min-height:200px; background:#fff;"></div>
-
-      <div style="display:flex; gap:8px; margin-top:10px; align-items:center;">
-        <input id="userInput" type="text" placeholder="Type your message..." />
-        <button onclick="sendMessage()">Send</button>
-      </div>
-
-      <details style="margin-top:12px;">
-        <summary><strong>Examples</strong></summary>
-        <ul class="muted">
-          <li>“How to grow more from a piece of land”</li>
-          <li>“Types of soil”</li>
-          <li>“Water management tips”</li>
-          <li>“Pesticide safety”</li>
-          <li>“Government schemes for farmers”</li>
-          <li>“CM of Maharashtra”</li>
-        </ul>
-      </details>
-    </section>
+      <h2>🌾 Krishi Bot</h2>
+<div id="chatbox" style="border:1px solid #eee; padding:10px; border-radius:8px; min-height:200px; background:#fff;">
+</div>
+<!-- Chatbox UI -->
+<div id="inputArea" style="display:flex; gap:8px; margin-top:10px; align-items:center;">
+  <input type="text" id="userInput" placeholder="Type a message..." />
+  <button id="sendBtn">Send</button>
+  <button id="micBtn" title="Speak">🎤</button>
+</div>
 
     <!-- LENS OCR + TRANSLATE (separate section) -->
     <section id="lens" class="card">
@@ -490,84 +468,142 @@
       }, ()=>{ out.innerHTML = "⚠️ Location access denied."; });
     }
 
-    /* ---------- Krishi Bot (comprehensive) ---------- */
     const chatbox = document.getElementById("chatbox");
     const userInput = document.getElementById("userInput");
-    const languageSelect = document.getElementById("language");
+    const sendBtn = document.getElementById("sendBtn");
+    const micBtn = document.getElementById("micBtn");
 
-    const responses = {
-      "hello":{en:"Hello! How are you doing?",hi:"नमस्ते! आप कैसे हैं?",roman:"Namaste! Aap kaise hain?"},
-      "how are you":{en:"I'm a bot — ready to help!",hi:"मैं मदद के लिए तैयार हूँ!",roman:"Main madad ke liye tayyar hoon!"},
-      "what is your name":{en:"My name is Krishi Bot.",hi:"मेरा नाम कृषी बॉट है।",roman:"Mera naam Krishi Bot hai."},
-      "thanks":{en:"Always here to help!",hi:"हमेशा सेवा में!",roman:"Hamesha seva mein!"},
-      "how to grow more from a piece of land": {
-        en: "How to Grow More:\n- Intercropping\n- Crop Rotation\n- HYV Seeds\n- Organic Fertilizer\n- Drip Irrigation\n- Double Cropping\n- Greenhouse Farming\n- Weed Control",
-        hi: "एक ही ज़मीन पर ज्यादा फसल कैसे उगाएं:\n- मिश्र फसल (Intercropping)\n- फसल चक्र (Crop Rotation)\n- उच्च उत्पादक बीज\n- जैविक खाद\n- ड्रिप सिंचाई\n- दोहरी फसल\n- ग्रीनहाउस खेती\n- निराई-गुड़ाई",
-        roman: "Ek hi zameen par zyada fasal kaise ugaayein:\n- Mishrit fasal\n- Fasal chakra\n- Uchh utpadak beej\n- Jaivik khaad\n- Drip sinchaai\n- Dohri fasal\n- Greenhouse kheti\n- Niraai-gudaai"
-      },
-      "types of soil": { en: "Types of Soil in India:\n1. Alluvial Soil\n2. Black Soil\n3. Red Soil\n4. Laterite Soil\n5. Desert Soil\n6. Mountain Soil",
-        hi:"भारत में मृदा के प्रकार:\n1. जलोढ़ मिट्टी\n2. काली मिट्टी\n3. लाल मिट्टी\n4. लेटराइट मिट्टी\n5. मरुस्थलीय मिट्टी\n6. पर्वतीय मिट्टी",
-        roman:"Bharat mein mrida ke prakar:\n1. Jalod mitti\n2. Kali mitti\n3. Laal mitti\n4. Laterite mitti\n5. Marusthal mitti\n6. Parvatiya mitti"
-      },
-      "water management": { en: "Tips:\n- Rainwater harvesting\n- Drip irrigation\n- Mulching\n- Traditional water systems\n- Groundwater recharge",
-        hi:"टिप्स:\n- वर्षा जल संचयन\n- ड्रिप सिंचाई\n- मल्चिंग\n- पारंपरिक जल प्रणाली\n- भूजल पुनर्भरण",
-        roman:"Tips:\n- Varsha jal sanchayan\n- Drip sinchaai\n- Mulching\n- Paaramparik jal pranali\n- Bhoojal punarbharn"
-      },
-      "pesticide": { en: "Use registered pesticides, follow label instructions, wear PPE, avoid overuse and follow pre-harvest intervals.",
-        hi: "पंजीकृत कीटनाशक का उपयोग करें, निर्देश पढ़ें, सुरक्षा उपकरण पहनें और ओवरयूज़ से बचें।",
-        roman: "Panjikrit keetnashak ka upyog karein, nirdesh padhein, suraksha upkaran pehnein."
-      },
-      "fertilizer": { en: "Use soil testing for fertilizer recommendations, balance NPK, prefer organic sources when possible.",
-        hi: "उर्वरक की सिफारिश के लिए मृदा परीक्षण करें, NPK संतुलित रखें, जहां संभव हो जैविक स्रोत अपनाएँ।",
-        roman: "Urvarak ke liye mrida parikshan karein, NPK santulit rakhein."
-      },
-      "animals": { en: "Farm animals: cows, buffaloes, goats, sheep, chickens. Focus on nutrition, vaccination, clean housing.",
-        hi: "कृषि पशु: गाय, भैंस, बकरी, भेड़, मुर्गी। पोषण, टीकाकरण और साफ आवास पर ध्यान दें।",
-        roman: "Krishi pashu: gaay, bhains, bakri, bhed, murgi. Poshan, tikaakaran, saaf aavaas."
-      },
-      "government schemes for farmers": { en: "Major Schemes:\n- PM-KISAN: direct income support\n- PMFBY: Crop insurance\n- KCC: Farm loans\n- eNAM: Online trading\n- Soil Health Card",
-        hi: "मुख्य योजनाएँ:\n- पीएम-किसान\n- पीएमएफबीवाई: फसल बीमा\n- किसान क्रेडिट कार्ड\n- ई-नाम: ऑनलाइन मंडी\n- मृदा स्वास्थ्य कार्ड",
-        roman: "Mukhya yojanaayein: PM-KISAN, PMFBY, KCC, eNAM, Soil Health Card"
-      }
+    // Predefined answers for all Indian states (only in English for simplicity)
+    const stateAnswers = {
+      "andhra pradesh": "The current CM of Andhra Pradesh is Sri Nara Chandrababu Naidu.",
+      "arunachal pradesh": "The current CM of Arunachal Pradesh is Shri Pema Khandu.",
+      "assam": "The current CM of Assam is Dr. Himanta Biswa Sarma.",
+      "bihar": "The current CM of Bihar is Shri Nitish Kumar.",
+      "chhattisgarh": "The current CM of Chhattisgarh is Shri Bhupesh Baghel.",
+      "goa": "The current CM of Goa is Dr. Pramod Sawant.",
+      "gujarat": "The current CM of Gujarat is Shri Bhupendra Patel.",
+      "haryana": "The current CM of Haryana is Shri Manohar Lal Khattar.",
+      "himachal pradesh": "The current CM of Himachal Pradesh is Shri Sukhvinder Singh Sukhu.",
+      "jharkhand": "The current CM of Jharkhand is Shri Hemant Soren.",
+      "karnataka": "The current CM of Karnataka is Shri Basavaraj Bommai.",
+      "kerala": "The current CM of Kerala is Shri Pinarayi Vijayan.",
+      "madhya pradesh": "The current CM of Madhya Pradesh is Shri Shivraj Singh Chouhan.",
+      "maharashtra": "The current CM of Maharashtra is Shri Eknath Shinde.",
+      "manipur": "The current CM of Manipur is Shri N. Biren Singh.",
+      "meghalaya": "The current CM of Meghalaya is Shri Conrad Sangma.",
+      "mizoram": "The current CM of Mizoram is Shri Zoramthanga.",
+      "nagaland": "The current CM of Nagaland is Shri Neiphiu Rio.",
+      "odisha": "The current CM of Odisha is Shri Naveen Patnaik.",
+      "punjab": "The current CM of Punjab is Shri Bhagwant Mann.",
+      "rajasthan": "The current CM of Rajasthan is Shri Ashok Gehlot.",
+      "sikkim": "The current CM of Sikkim is Shri Prem Singh Tamang.",
+      "tamil nadu": "The current CM of Tamil Nadu is Shri M. K. Stalin.",
+      "telangana": "The current CM of Telangana is Shri K. Chandrashekar Rao.",
+      "tripura": "The current CM of Tripura is Shri Manik Saha.",
+      "uttar pradesh": "The current CM of Uttar Pradesh is Shri Yogi Adityanath.",
+      "uttarakhand": "The current CM of Uttarakhand is Shri Pushkar Singh Dhami.",
+      "west bengal": "The current CM of West Bengal is Smt. Mamata Banerjee."
     };
 
-    function appendMessage(sender, message){
-      const d = document.createElement("div");
-      d.style.padding = "6px 0";
-      d.textContent = `${sender}: ${message}`;
-      chatbox.appendChild(d);
+    // Function to add message to chat window
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.className = "message " + sender;
+      div.innerText = text;
+      chatbox.appendChild(div);
       chatbox.scrollTop = chatbox.scrollHeight;
     }
 
-    function sendMessage(){
-      const msg = (userInput.value||"").trim();
-      if (!msg) return;
-      appendMessage("You", msg);
-      userInput.value = "";
-      let reply = "Sorry, I didn't understand that. Try: 'water management', 'types of soil', 'pesticide', 'fertilizer', 'animals', or 'government schemes for farmers'.";
-      const lower = msg.toLowerCase();
-      for (const k in responses){
-        if (lower.includes(k)){
-          const lang = languageSelect.value;
-          reply = responses[k][lang] || responses[k].en;
-          break;
+    // Text-to-speech function
+    function speak(text, lang='en-US') {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // Main response handler
+    async function handleResponse(message) {
+      const msgLower = message.toLowerCase().trim();
+
+      // Check if message mentions a state
+      for (const state in stateAnswers) {
+        if (msgLower.includes(state)) {
+          const answer = stateAnswers[state];
+          addMessage(answer, "bot");
+          // Speak the answer
+          speak(answer, 'en-US');
+          return;
         }
       }
-      appendMessage("Krishi Bot", reply);
-      try { const utter = new SpeechSynthesisUtterance(reply); utter.lang = (languageSelect.value==="hi"?"hi-IN":"en-US"); speechSynthesis.speak(utter); } catch(e){}
-    }
-    userInput.addEventListener("keypress", function(e){ if (e.key === "Enter") sendMessage(); });
 
-    function startRecognition(){
+      // For other questions, call API
       try {
-        const lang = languageSelect.value==="hi" ? "hi-IN" : "en-US";
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = lang;
-        recognition.start();
-        recognition.onresult = function(ev){ const transcript = ev.results[0][0].transcript; userInput.value = transcript; sendMessage(); };
-      } catch(e) { alert("Speech recognition not supported in this browser."); }
+        const response = await fetch(
+          "https://cors-anywhere.herokuapp.com/https://api.cohere.ai/v1/chat",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer F99eoHubtMVbLnLGJwQbeyx1VIVwJz8bLdQrvDjU"
+            },
+            body: JSON.stringify({ model: "command-r-plus", message: message })
+          }
+        );
+        const data = await response.json();
+        if (data && data.text) {
+          const replyEn = data.text;
+          // No Hindi translation here
+          addMessage(replyEn, "bot");
+          speak(replyEn, 'en-US');
+        } else {
+          addMessage("⚠️ No response from API.", "bot");
+        }
+      } catch (error) {
+        addMessage("❌ Error: " + error.message, "bot");
+      }
     }
 
+    // Send message function
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      addMessage(message, "user");
+      userInput.value = "";
+      await handleResponse(message);
+    }
+
+    document.getElementById("sendBtn").addEventListener("click", sendMessage);
+    document.getElementById("userInput").addEventListener("keypress", function(e){
+      if (e.key === "Enter") sendMessage();
+    });
+
+    // Microphone speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US'; // change to 'hi-IN' for Hindi
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => { micBtn.textContent = "🛑"; };
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        userInput.value = transcript;
+        sendMessage();
+      };
+      recognition.onerror = () => { alert("Error recognizing speech"); };
+      recognition.onend = () => { micBtn.textContent = "🎤"; };
+
+      document.getElementById("micBtn").addEventListener("click", () => {
+        recognition.start();
+      });
+    } else {
+      document.getElementById("micBtn").disabled = true;
+      document.getElementById("micBtn").title = "Speech recognition not supported";
+    }
+  
     /* ---------- LENS OCR + Translate ---------- */
 
     // Populate OCR languages and translate target list (all Indian + fallback)
@@ -634,47 +670,6 @@
         transSelect.appendChild(opt);
       });
     })();
-
-    // State & CM data (full list for states in the select)
-    const stateData = [
-      {state:"Andhra Pradesh", capital:"Amaravati", cm:"N. Chandrababu Naidu"},
-      {state:"Arunachal Pradesh", capital:"Itanagar", cm:"Pema Khandu"},
-      {state:"Assam", capital:"Dispur", cm:"Himanta Biswa Sarma"},
-      {state:"Bihar", capital:"Patna", cm:"Nitish Kumar"},
-      {state:"Chhattisgarh", capital:"Raipur", cm:"Vishnu Deo Sai"},
-      {state:"Goa", capital:"Panaji", cm:"Pramod Sawant"},
-      {state:"Gujarat", capital:"Gandhinagar", cm:"Bhupendra Patel"},
-      {state:"Haryana", capital:"Chandigarh", cm:"Nayab Singh Saini"},
-      {state:"Himachal Pradesh", capital:"Shimla", cm:"Sukhvinder Singh Sukhu"},
-      {state:"Jharkhand", capital:"Ranchi", cm:"Hemant Soren"},
-      {state:"Karnataka", capital:"Bengaluru", cm:"Siddaramaiah"},
-      {state:"Kerala", capital:"Thiruvananthapuram", cm:"Pinarayi Vijayan"},
-      {state:"Madhya Pradesh", capital:"Bhopal", cm:"Mohan Yadav"},
-      {state:"Maharashtra", capital:"Mumbai", cm:"Devendra Fadnavis"},
-      {state:"Manipur", capital:"Imphal", cm:"Vacant / President's Rule"},
-      {state:"Meghalaya", capital:"Shillong", cm:"Conrad Sangma"},
-      {state:"Mizoram", capital:"Aizawl", cm:"Lalduhoma"},
-      {state:"Nagaland", capital:"Kohima", cm:"Neiphiu Rio"},
-      {state:"Odisha", capital:"Bhubaneswar", cm:"Mohan Charan Majhi"},
-      {state:"Punjab", capital:"Chandigarh", cm:"Bhagwant Mann"},
-      {state:"Rajasthan", capital:"Jaipur", cm:"Bhajan Lal Sharma"},
-      {state:"Sikkim", capital:"Gangtok", cm:"Prem Singh Tamang"},
-      {state:"Tamil Nadu", capital:"Chennai", cm:"M. K. Stalin"},
-      {state:"Telangana", capital:"Hyderabad", cm:"A. Revanth Reddy"},
-      {state:"Tripura", capital:"Agartala", cm:"Manik Saha"},
-      {state:"Uttar Pradesh", capital:"Lucknow", cm:"Yogi Adityanath"},
-      {state:"Uttarakhand", capital:"Dehradun", cm:"Pushkar Singh Dhami"},
-      {state:"West Bengal", capital:"Kolkata", cm:"Mamata Banerjee"}
-    ];
-
-    // add CM quick-answers to the bot responses
-    for(const s of stateData){
-      responses[`cm of ${s.state.toLowerCase()}`] = {
-        en: `${s.state}'s Chief Minister is ${s.cm}. Capital is ${s.capital}.`,
-        hi: `${s.state} के मुख्यमंत्री ${s.cm} हैं। राजधानी ${s.capital} है।`,
-        roman: `${s.state} ke mukhyamantri ${s.cm} hain. Rajdhani ${s.capital} hai.`
-      };
-    }
 
     /* ---------- Lens image handling & OCR ---------- */
     let _capturedImageDataURL = null;
