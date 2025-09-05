@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -525,9 +524,9 @@ const cms = {
   "west bengal": "Km. Mamata Banerjee"
 };
 
+// ✅ Main handler
 async function handleResponse(message) {
   addMessage(message, "user");
-
   const lowerMsg = message.toLowerCase();
 
   // ✅ Predefined answers
@@ -538,7 +537,7 @@ async function handleResponse(message) {
     return;
   }
 
-  if (lowerMsg.includes("who owns you") || lowerMsg.includes("who owns patukrishi")) {
+  if (lowerMsg.includes("who owns you") || lowerMsg.includes("who owns patukrishi") || lowerMsg.includes("owner of patukrishi")) {
     const reply = "PatuKrishi is owned by Chanakya Sahni from the team - The Synergistic Trio";
     addMessage(reply, "bot");
     speak(reply);
@@ -550,6 +549,11 @@ async function handleResponse(message) {
     const state = lowerMsg.replace("cm of", "").trim();
     if (cms[state]) {
       const reply = `The Chief Minister of ${state.charAt(0).toUpperCase() + state.slice(1)} is ${cms[state]}.`;
+      addMessage(reply, "bot");
+      speak(reply);
+      return;
+    } else {
+      const reply = `Sorry, I don't have data for ${state}.`;
       addMessage(reply, "bot");
       speak(reply);
       return;
@@ -581,8 +585,8 @@ async function handleResponse(message) {
     );
 
     const data = await response.json();
-    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      const reply = data.candidates[0].content.parts[0].text;
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (reply) {
       addMessage(reply, "bot");
       speak(reply);
     } else {
@@ -593,6 +597,7 @@ async function handleResponse(message) {
   }
 }
 
+// ✅ Send button click
 sendBtn.addEventListener("click", () => {
   const message = userInput.value.trim();
   if (message) {
@@ -601,31 +606,42 @@ sendBtn.addEventListener("click", () => {
   }
 });
 
+// ✅ Enter key press
 userInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") sendBtn.click();
 });
 
+// ✅ Mic button
 micBtn.addEventListener("click", () => {
-  if ("webkitSpeechRecognition" in window) {
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = "en-IN";
-    recognition.start();
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      userInput.value = transcript;
-      sendBtn.click();
-    };
-
-    recognition.onerror = (event) => {
-      addMessage("🎤 Mic error: " + event.error, "bot");
-      console.error("Speech recognition error:", event.error);
-    };
-  } else {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
     addMessage("🎤 Speech recognition not supported in this browser.", "bot");
+    return;
   }
-});
 
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  addMessage("🎤 Listening...", "bot");
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    userInput.value = transcript;
+    sendBtn.click();
+  };
+
+  recognition.onerror = (event) => {
+    addMessage("🎤 Mic error: " + event.error, "bot");
+    console.error("Speech recognition error:", event.error);
+  };
+
+  recognition.onend = () => {
+    addMessage("🎤 Listening stopped.", "bot");
+  };
+});
 
     /* ---------- LENS OCR + Translate ---------- */
 
