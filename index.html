@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -468,145 +469,164 @@
       }, ()=>{ out.innerHTML = "⚠️ Location access denied."; });
     }
 
-    const chatbox = document.getElementById("chatbox");
-    const userInput = document.getElementById("userInput");
-    const sendBtn = document.getElementById("sendBtn");
-    const micBtn = document.getElementById("micBtn");
+ const chatbox = document.getElementById("chatbox");
+const userInput = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+const micBtn = document.getElementById("micBtn");
 
-    // Predefined answers for all Indian states (only in English for simplicity)
-    const stateAnswers = {
-      "andhra pradesh": "The current CM of Andhra Pradesh is Sri Nara Chandrababu Naidu.",
-      "arunachal pradesh": "The current CM of Arunachal Pradesh is Shri Pema Khandu.",
-      "assam": "The current CM of Assam is Dr. Himanta Biswa Sarma.",
-      "bihar": "The current CM of Bihar is Shri Nitish Kumar.",
-      "chhattisgarh": "The current CM of Chhattisgarh is Shri Vishnu Deo Sai.",
-      "delhi": "The current Cm=M of Delhi(NCT) is Smt. Rekha Gupta.",
-      "goa": "The current CM of Goa is Dr. Pramod Sawant.",
-      "gujarat": "The current CM of Gujarat is Shri Bhupendra Patel.",
-      "haryana": "The current CM of Haryana is Shri Nayab Singh Saini.",
-      "himachal pradesh": "The current CM of Himachal Pradesh is Shri Sukhvinder Singh Sukhu.",
-      "jammu and kashmir": "The current CM of Jammu and Kashmir(UT) is Omar Abdullah.",
-      "jharkhand": "The current CM of Jharkhand is Shri Hemant Soren.",
-      "karnataka": "The current CM of Karnataka is Shri Siddaramaiah.",
-      "kerala": "The current CM of Kerala is Shri Pinarayi Vijayan.",
-      "madhya pradesh": "The current CM of Madhya Pradesh is Shri Mohan Yadav.",
-      "maharashtra": "The current CM of Maharashtra is Shri Devendra Fadnavis.",
-      "manipur": "The current CM of Manipur is Shri N. Biren Singh.",
-      "meghalaya": "The current CM of Meghalaya is Shri Conrad Sangma.",
-      "mizoram": "The current CM of Mizoram is Shri PU Laluhoma.",
-      "nagaland": "The current CM of Nagaland is Shri Neiphiu Rio.",
-      "odisha": "The current CM of Odisha is Shri Mohan Charan Majhi.",
-      "puducherry": "The current CM of Puducherry is Shri N. Rangaswamy.",
-      "punjab": "The current CM of Punjab is Shri Bhagwant Singh Mann.",
-      "rajasthan": "The current CM of Rajasthan is Shri Bhajan Lal Sharma.",
-      "sikkim": "The current CM of Sikkim is Shri Prem Singh Tamang.",
-      "tamil nadu": "The current CM of Tamil Nadu is Shri M. K. Stalin.",
-      "telangana": "The current CM of Telangana is Shri A. Revant Reddy.",
-      "tripura": "The current CM of Tripura is Shri Manik Saha.",
-      "uttar pradesh": "The current CM of Uttar Pradesh is Shri Yogi Adityanath.",
-      "uttarakhand": "The current CM of Uttarakhand is Shri Pushkar Singh Dhami.",
-      "west bengal": "The current CM of West Bengal is Smt. Mamata Banerjee."
+function addMessage(text, sender) {
+  const div = document.createElement("div");
+  div.className = "message " + sender;
+  div.innerText = text;
+  chatbox.appendChild(div);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function speak(text, lang = "en-US") {
+  if ("speechSynthesis" in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
+// ✅ CM data
+const cms = {
+  "andhra pradesh": "Sri Nara Chandrababu Naidu",
+  "arunachal pradesh": "Shri Pema Khandu",
+  "assam": "Shri Himanta Biswa Sarma",
+  "bihar": "Shri Nitish Kumar",
+  "chhattisgarh": "Shri Vishnu Deo Sai",
+  "delhi": "Smt. Rekha Gupta",
+  "goa": "Shri Pramod Sawant",
+  "gujarat": "Shri Bhupendra Patel",
+  "haryana": "Shri Nayab Singh Saini",
+  "himachal pradesh": "Shri Sukhvinder Singh Sukhu",
+  "jammu and kashmir": "Shri Omar Abdullah",
+  "jharkhand": "Shri Hemant Soren",
+  "karnataka": "Shri Siddaramaiah",
+  "kerala": "Shri Pinarayi Vijayan",
+  "madhya pradesh": "Shri Mohan Yadav",
+  "maharashtra": "Shri Devendra Fadnavis",
+  "manipur": "-",
+  "meghalaya": "Shri Conrad Kongkal Sangma",
+  "mizoram": "Shri PU Lalduhoma",
+  "nagaland": "Shri Neiphiu Rio",
+  "odisha": "Shri Mohan Charan Majhi",
+  "puducherry": "Shri N. Rangaswamy",
+  "punjab": "Shri Bhagwant Singh Mann",
+  "rajasthan": "Shri Bhajan Lal Sharma",
+  "sikkim": "Shri Prem Singh Tamang (Golay)",
+  "tamil nadu": "Shri M. K. Stalin",
+  "telangana": "Shri A Revanth Reddy",
+  "tripura": "Dr. Manik Saha",
+  "uttar pradesh": "Shri Yogi Aditya Nath",
+  "uttarakhand": "Shri Pushkar Singh Dhami",
+  "west bengal": "Km. Mamata Banerjee"
+};
+
+async function handleResponse(message) {
+  addMessage(message, "user");
+
+  const lowerMsg = message.toLowerCase();
+
+  // ✅ Predefined answers
+  if (lowerMsg.includes("what is your name") || lowerMsg.includes("who are you")) {
+    const reply = "I am Krishi Bot!";
+    addMessage(reply, "bot");
+    speak(reply);
+    return;
+  }
+
+  if (lowerMsg.includes("who owns you") || lowerMsg.includes("who owns patukrishi")) {
+    const reply = "PatuKrishi is owned by Chanakya Sahni from the team - The Synergistic Trio";
+    addMessage(reply, "bot");
+    speak(reply);
+    return;
+  }
+
+  // ✅ CM of a specific state
+  if (lowerMsg.includes("cm of")) {
+    const state = lowerMsg.replace("cm of", "").trim();
+    if (cms[state]) {
+      const reply = `The Chief Minister of ${state.charAt(0).toUpperCase() + state.slice(1)} is ${cms[state]}.`;
+      addMessage(reply, "bot");
+      speak(reply);
+      return;
+    }
+  }
+
+  // ✅ List of all CMs
+  if (lowerMsg.includes("list of all cm") || lowerMsg.includes("cm of all states")) {
+    let reply = "Here is the list of current Chief Ministers:\n\n";
+    for (const [state, cm] of Object.entries(cms)) {
+      reply += `${state.charAt(0).toUpperCase() + state.slice(1)} - ${cm}\n`;
+    }
+    addMessage(reply, "bot");
+    speak("Here is the list of current Chief Ministers of all states.");
+    return;
+  }
+
+  // ✅ If not predefined → call Gemini API
+  try {
+    const response = await fetch(
+      "https://cors-anywhere.herokuapp.com/https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyCqMLGjzxW9WtLJY5pYY5Qvtmuya78RoZA",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: message }] }]
+        })
+      }
+    );
+
+    const data = await response.json();
+    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+      const reply = data.candidates[0].content.parts[0].text;
+      addMessage(reply, "bot");
+      speak(reply);
+    } else {
+      addMessage("⚠️ No response from Gemini 2.5 API.", "bot");
+    }
+  } catch (error) {
+    addMessage("❌ Error: " + error.message, "bot");
+  }
+}
+
+sendBtn.addEventListener("click", () => {
+  const message = userInput.value.trim();
+  if (message) {
+    handleResponse(message);
+    userInput.value = "";
+  }
+});
+
+userInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendBtn.click();
+});
+
+micBtn.addEventListener("click", () => {
+  if ("webkitSpeechRecognition" in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-IN";
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      userInput.value = transcript;
+      sendBtn.click();
     };
 
-    // Function to add message to chat window
-    function addMessage(text, sender) {
-      const div = document.createElement("div");
-      div.className = "message " + sender;
-      div.innerText = text;
-      chatbox.appendChild(div);
-      chatbox.scrollTop = chatbox.scrollHeight;
-    }
+    recognition.onerror = (event) => {
+      addMessage("🎤 Mic error: " + event.error, "bot");
+      console.error("Speech recognition error:", event.error);
+    };
+  } else {
+    addMessage("🎤 Speech recognition not supported in this browser.", "bot");
+  }
+});
 
-    // Text-to-speech function
-    function speak(text, lang='en-US') {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang;
-        window.speechSynthesis.speak(utterance);
-      }
-    }
 
-    // Main response handler
-    async function handleResponse(message) {
-      const msgLower = message.toLowerCase().trim();
-
-      // Check if message mentions a state
-      for (const state in stateAnswers) {
-        if (msgLower.includes(state)) {
-          const answer = stateAnswers[state];
-          addMessage(answer, "bot");
-          // Speak the answer
-          speak(answer, 'en-US');
-          return;
-        }
-      }
-
-      // For other questions, call API
-      try {
-        const response = await fetch(
-          "https://cors-anywhere.herokuapp.com/https://api.cohere.ai/v1/chat",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer F99eoHubtMVbLnLGJwQbeyx1VIVwJz8bLdQrvDjU"
-            },
-            body: JSON.stringify({ model: "command-r-plus", message: message })
-          }
-        );
-        const data = await response.json();
-        if (data && data.text) {
-          const replyEn = data.text;
-          // No Hindi translation here
-          addMessage(replyEn, "bot");
-          speak(replyEn, 'en-US');
-        } else {
-          addMessage("⚠️ No response from API.", "bot");
-        }
-      } catch (error) {
-        addMessage("❌ Error: " + error.message, "bot");
-      }
-    }
-
-    // Send message function
-    async function sendMessage() {
-      const message = userInput.value.trim();
-      if (!message) return;
-      addMessage(message, "user");
-      userInput.value = "";
-      await handleResponse(message);
-    }
-
-    document.getElementById("sendBtn").addEventListener("click", sendMessage);
-    document.getElementById("userInput").addEventListener("keypress", function(e){
-      if (e.key === "Enter") sendMessage();
-    });
-
-    // Microphone speech recognition
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US'; // change to 'hi-IN' for Hindi
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
-      recognition.onstart = () => { micBtn.textContent = "🛑"; };
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        userInput.value = transcript;
-        sendMessage();
-      };
-      recognition.onerror = () => { alert("Error recognizing speech"); };
-      recognition.onend = () => { micBtn.textContent = "🎤"; };
-
-      document.getElementById("micBtn").addEventListener("click", () => {
-        recognition.start();
-      });
-    } else {
-      document.getElementById("micBtn").disabled = true;
-      document.getElementById("micBtn").title = "Speech recognition not supported";
-    }
-  
     /* ---------- LENS OCR + Translate ---------- */
 
     // Populate OCR languages and translate target list (all Indian + fallback)
