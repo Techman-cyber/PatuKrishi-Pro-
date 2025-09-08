@@ -537,7 +537,7 @@ async function handleResponse(message) {
     return;
   }
 
-  if (lowerMsg.includes("who owns you") || lowerMsg.includes("who owns patukrishi") || lowerMsg.includes("owner of patukrishi")) {
+  if (lowerMsg.includes("who owns you") || lowerMsg.includes("who is your owner") || lowerMsg.includes("who owns patukrishi") || lowerMsg.includes("owner of patukrishi")) {
     const reply = "PatuKrishi is owned by Chanakya Sahni from the team - The Synergistic Trio";
     addMessage(reply, "bot");
     speak(reply);
