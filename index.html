@@ -530,7 +530,7 @@ async function handleResponse(message) {
   const lowerMsg = message.toLowerCase();
 
   // ✅ Predefined answers
-  if (lowerMsg.includes("what is your name") || lowerMsg.includes("who are you")) {
+  if (lowerMsg.includes("what is your name") || lowerMsg.includes("who are you") || lowerMsg.includes("Tumhara naam kya hai")) {
     const reply = "I am Krishi Bot!";
     addMessage(reply, "bot");
     speak(reply);
