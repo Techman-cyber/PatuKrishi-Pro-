@@ -306,6 +306,7 @@
     <section id="krishi" class="card">
       <h2>🌾 Krishi Bot</h2>
 <div id="chatbox" style="border:1px solid #eee; padding:10px; border-radius:8px; min-height:200px; background:#fff;">
+⚠️ To make this chatbot work, go to this website and click 'Request temporary access': "https://cors-anywhere.herokuapp.com/corsdemo"
 </div>
 <!-- Chatbox UI -->
 <div id="inputArea" style="display:flex; gap:8px; margin-top:10px; align-items:center;">
@@ -574,7 +575,7 @@ async function handleResponse(message) {
   // ✅ If not predefined → call Gemini API
   try {
     const response = await fetch(
-      "https://cors-anywhere.herokuapp.com/https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyC0zMJvVbDpmkMCeRuYBZO16ioi4KiEr-s",
+      "https://cors-anywhere.herokuapp.com/https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyDxHGBhYOQUJEWOIyqd3DbrU-U3uo4T8yo",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -596,7 +597,7 @@ async function handleResponse(message) {
     addMessage("❌ Error: " + error.message, "bot");
   }
 }
-
+ 
 // ✅ Send button click
 sendBtn.addEventListener("click", () => {
   const message = userInput.value.trim();
@@ -642,7 +643,6 @@ micBtn.addEventListener("click", () => {
     addMessage("🎤 Listening stopped.", "bot");
   };
 });
-
     /* ---------- LENS OCR + Translate ---------- */
 
     // Populate OCR languages and translate target list (all Indian + fallback)
